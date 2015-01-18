@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * Created by kyle on 1/18/15.
- * TitlePanel panel for MainMenu
+ * TitlePanel panel for MainWindow
  */
 public class TitlePanel extends JPanel{
     private String title;
