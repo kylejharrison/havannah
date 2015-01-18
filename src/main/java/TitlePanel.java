@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class TitlePanel extends JLabel{
 
-    public TitlePanel(String title){
+    public TitlePanel (String title){
         this.setText(title);
         this.setFont(new Font("Serif", Font.PLAIN, 24));
     }

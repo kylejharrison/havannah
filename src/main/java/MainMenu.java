@@ -30,8 +30,13 @@ public class MainMenu extends JPanel{
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Game game = new Game();
-                game.startGame();
+                // static defaults for now
+                int boardSize = 8;
+                int difficulty = 0;
+                boolean againstCPU = true;
+                //Hands off the running of the game to the GameRunner
+                GameRunner gameRunner = new GameRunner(boardSize, difficulty, againstCPU);
+                gameRunner.run();
             }
         });
         frame.add(newGame);
