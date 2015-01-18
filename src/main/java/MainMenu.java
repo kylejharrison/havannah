@@ -29,7 +29,7 @@ public class MainMenu extends JPanel{
             }
         });
         frame.setContentPane(new MainMenu());
-        frame.setSize(40, 40);
+        frame.setSize(450, 350);
         frame.setVisible(true);
     }
 }
