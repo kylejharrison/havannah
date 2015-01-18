@@ -5,15 +5,25 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * Created by kyle on 1/18/15.
- * Title panel for MainMenu
+ * TitlePanel panel for MainMenu
  */
-public class Title extends JPanel{
+public class TitlePanel extends JPanel{
+    private String title;
+
+    public TitlePanel() {
+        this.title = "Hello KY";
+    }
+
+    public TitlePanel(String title){
+        this.title = title;
+    }
+
     // Set the title text and style
     public void paint(Graphics graphic){
         Graphics2D title = (Graphics2D) graphic;
         title.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         title.setFont(new Font("Serif", Font.PLAIN, 48));
-        paintHorizontallyCenteredText(title, "Hello KY", 200, 75);
+        paintHorizontallyCenteredText(title, this.title, 200, 75);
     }
     // Draw it centered - TODO: Should this be in a separate class?
     protected void paintHorizontallyCenteredText(Graphics2D graphic, String text, float centreX, float baselineY){

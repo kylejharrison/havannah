@@ -16,7 +16,7 @@ public class MainMenu extends JPanel{
             }
         });
         //Add the title text at the top
-        Title title = new Title();
+        TitlePanel title = new TitlePanel("Welcome to Havannah");
         frame.add(title);
 
         //Set size and make the window visible
