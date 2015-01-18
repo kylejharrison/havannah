@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class MainWindow extends JPanel{
+public class MainMenu extends JPanel{
     public static void main(String[] args){
         //Create the main game window
         JFrame frame = new JFrame("Havannah Main Menu");

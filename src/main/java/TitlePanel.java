@@ -5,14 +5,18 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * Created by kyle on 1/18/15.
- * TitlePanel panel for MainWindow
+ * TitlePanel panel for MainMenu
  */
 public class TitlePanel extends JPanel{
     private String title;
 
+/* This was mainly for seeing if it would work, so commenting out as Intellij's warnings were pissing
+    me off
+
     public TitlePanel() {
         this.title = "Hello KY";
     }
+*/
 
     public TitlePanel(String title){
         this.title = title;
