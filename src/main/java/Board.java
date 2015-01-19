@@ -1,3 +1,5 @@
+import UiElements.TitlePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,18 +15,6 @@ public class Board extends JPanel{
         this.allHexes = allHexes;
     }
     public void displayBoard(){
-        JFrame gameFrame = new JFrame("Game Window");
-        Container container = gameFrame.getContentPane();
-        gameFrame.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        TitlePanel title = new TitlePanel("This is a new game");
-        gameFrame.add(title);
-
-        TitlePanel board = new TitlePanel("The board will go here");
-        gameFrame.add(board);
-
-        //Set size and make the window visible
-        gameFrame.setSize(450, 350);
-        gameFrame.setVisible(true);
     }
 }

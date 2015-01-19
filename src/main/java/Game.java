@@ -5,30 +5,36 @@ import java.util.ArrayList;
  * Controls all aspects of the game
  */
 public class Game {
-    private int boardSize;
-    private int difficulty;
-    private boolean againstCPU;
     private ArrayList<Hex> allHexes;
+    private boolean winner;
+    private boolean finished;
+    private Player currentPlayer;
+    private int boardSize;
+    private Player[] allPlayers = new Player[2];
 
-    public Game(int boardSize, int difficulty, boolean againstCPU){
+    public Game (int boardSize, Player player1, Player player2){
         this.boardSize = boardSize;
-        this.difficulty = difficulty;
-        this.againstCPU = againstCPU;
-        generateAllHexes();
+        this.allPlayers[0] = player1;
+        this.allPlayers[1] = player2;
     }
 
     public ArrayList<Hex> getAllHexes(){
-        return this.allHexes;
-    }
-    public void startGame(){
-
+        return allHexes;
     }
 
-    private ArrayList<Hex> generateAllHexes(){
-
+    public boolean isWinner(){
+        return winner;
     }
-    private int calculateMaxNumberOfHexes(){
 
+    public boolean isFinished(){
+        return finished;
+    }
 
+    public Player getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    private Player chooseFirstPlayer(){
+        
     }
 }

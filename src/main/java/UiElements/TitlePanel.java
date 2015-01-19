@@ -1,9 +1,11 @@
+package UiElements;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by kyle on 1/18/15.
- * TitlePanel panel for MainMenu
+ * UiElements.TitlePanel panel for MainMenu
  */
 public class TitlePanel extends JLabel{
 

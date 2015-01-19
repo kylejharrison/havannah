@@ -2,6 +2,9 @@
  * Created by kyle on 1/18/15.
  * Main Menu - main class for game
  */
+
+import UiElements.TitlePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,16 +29,17 @@ public class MainMenu extends JPanel{
         frame.add(title);
 
         //Add a button to start new Game
-        Button newGame = new Button("Start New Game");
+        UiElements.Button newGame = new UiElements.Button("Start New Game");
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // static defaults for now
                 int boardSize = 8;
                 int difficulty = 0;
-                boolean againstCPU = true;
+                Player ky = new Player("KY", "Blue", true);
+                Player ai = new Player("ai", "Red", false);
                 //Hands off the running of the game to the GameRunner
-                GameRunner gameRunner = new GameRunner(boardSize, difficulty, againstCPU);
+                GameRunner gameRunner = new GameRunner(boardSize, difficulty, ky, ai);
                 gameRunner.run();
             }
         });
