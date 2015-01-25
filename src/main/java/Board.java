@@ -18,23 +18,36 @@ public class Board extends JPanel{
 
     public Board (int boardSize){
         this.boardSize = boardSize;
-
+//        SpringLayout layout = new SpringLayout();
+//        this.setLayout(layout);
+        setLayout(null);
         Title test = new Title("test");
-        final HexButton testButton = new HexButton(Color.BLACK);
-        final Border hex, hexBlue;
-        Border empty;
-        empty = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-        hex = BorderFactory.createCompoundBorder(empty, new ui.HexBorder(Color.BLACK));
-        hexBlue = BorderFactory.createCompoundBorder(empty, new HexBorder(Color.BLUE));
-        testButton.setBorderPainted(true);
-        testButton.setFocusPainted(false);
-        testButton.setBorder(hex);
-        testButton.setOpaque(true);
+        final HexButton testButton = new HexButton(Color.WHITE);
+        final HexButton testButton2 = new HexButton(Color.WHITE);
         this.add(testButton);
+        this.add(testButton2);
+
+        Insets insets = getInsets();
+        Dimension size = new Dimension((int) (40 + (Math.cos(Math.toRadians(60.0)) * 40.0)), (int) (Math.sin(Math.toRadians(60.0)) * 40.0));
+        testButton.setPreferredSize(size);
+        testButton2.setPreferredSize(size);
+        testButton.setBounds(insets.left, insets.top, size.width, size.height);
+        testButton2.setBounds(insets.left, (int) (Math.sin(Math.toRadians(60.0)) * 40.0) + insets.top, size.width, size.height);
+
+        setSize((int) ((boardSize * 40) - ((boardSize -1) * (Math.cos(Math.toRadians(60.0)) * 40.0)) + insets.left + insets.right),
+                ((boardSize + 1) * (int) (Math.sin(Math.toRadians(60.0)) * 40.0)) + insets.top + insets.bottom);
+
+
         testButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                testButton.setBorder(hexBlue);
+                System.out.println(Math.sin(Math.toRadians(60.0)) * 20.0 );
+            }
+        });
+        testButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("clicked2");
             }
         });
 //        this.add(simpleTest);

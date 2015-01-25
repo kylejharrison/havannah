@@ -23,7 +23,6 @@ public class MainMenu extends JPanel{
         });
         Container container = frame.getContentPane();
         frame.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-
         //Add the title text at the top
         Title title = new Title("Welcome to Havannah");
         frame.add(title);
@@ -34,7 +33,7 @@ public class MainMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // static defaults for now
-                int boardSize = 8;
+                int boardSize = 2;
                 int difficulty = 0;
                 Player ky = new Player("KY", "Blue", true);
                 Player ai = new Player("ai", "Red", false);
