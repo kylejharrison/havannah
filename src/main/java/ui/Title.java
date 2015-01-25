@@ -1,15 +1,15 @@
-package UiElements;
+package ui;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by kyle on 1/18/15.
- * UiElements.TitlePanel panel for MainMenu
+ * ui.Title panel for MainMenu
  */
-public class TitlePanel extends JLabel{
+public class Title extends JLabel{
 
-    public TitlePanel (String title){
+    public Title(String title){
         this.setText(title);
         this.setFont(new Font("Serif", Font.PLAIN, 24));
     }

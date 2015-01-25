@@ -34,7 +34,5 @@ public class Game {
         return currentPlayer;
     }
 
-    private Player chooseFirstPlayer(){
-        
-    }
+
 }

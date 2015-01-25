@@ -3,7 +3,7 @@
  * Main Menu - main class for game
  */
 
-import UiElements.TitlePanel;
+import ui.Title;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +25,11 @@ public class MainMenu extends JPanel{
         frame.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
         //Add the title text at the top
-        TitlePanel title = new TitlePanel("Welcome to Havannah");
+        Title title = new Title("Welcome to Havannah");
         frame.add(title);
 
         //Add a button to start new Game
-        UiElements.Button newGame = new UiElements.Button("Start New Game");
+        ui.Button newGame = new ui.Button("Start New Game");
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

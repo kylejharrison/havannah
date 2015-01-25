@@ -1,4 +1,4 @@
-import UiElements.TitlePanel;
+import ui.Title;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,11 +24,14 @@ public class GameRunner extends JPanel{
         Container container = gameFrame.getContentPane();
         gameFrame.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        TitlePanel title = new TitlePanel("This is a new game");
+        Title title = new Title("This is a new game");
         gameFrame.add(title);
 
-        TitlePanel board = new TitlePanel("The board will go here");
-        gameFrame.add(board);
+//        Title board = new Title("The board will go here");
+//        gameFrame.add(board);
+
+        Board gameBoard = new Board(boardSize);
+        gameFrame.add(gameBoard);
 
         //Set size and make the window visible
         gameFrame.setSize(450, 350);
