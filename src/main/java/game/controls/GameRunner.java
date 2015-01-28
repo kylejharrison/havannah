@@ -24,7 +24,7 @@ public class GameRunner extends JPanel{
         this.player2 = player2;
     }
     public void run(){
-        JFrame gameFrame = new JFrame("game.elements.Game Window");
+        JFrame gameFrame = new JFrame("Game Window");
         Container container = gameFrame.getContentPane();
         gameFrame.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
