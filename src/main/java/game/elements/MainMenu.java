@@ -1,8 +1,9 @@
-/**
+package game.elements; /**
  * Created by kyle on 1/18/15.
  * Main Menu - main class for game
  */
 
+import game.controls.GameRunner;
 import ui.Title;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class MainMenu extends JPanel{
         Title title = new Title("Welcome to Havannah");
         frame.add(title);
 
-        //Add a button to start new Game
+        //Add a button to start new game.elements.Game
         ui.Button newGame = new ui.Button("Start New Game");
         newGame.addActionListener(new ActionListener() {
             @Override
@@ -37,7 +38,7 @@ public class MainMenu extends JPanel{
                 int difficulty = 0;
                 Player ky = new Player("KY", "Blue", true);
                 Player ai = new Player("ai", "Red", false);
-                //Hands off the running of the game to the GameRunner
+                //Hands off the running of the game to the game.controls.GameRunner
                 GameRunner gameRunner = new GameRunner(boardSize, difficulty, ky, ai);
                 gameRunner.run();
             }

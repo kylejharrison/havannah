@@ -1,3 +1,5 @@
+package game.elements;
+
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,7 @@ public class Game {
         this.boardSize = boardSize;
         this.allPlayers[0] = player1;
         this.allPlayers[1] = player2;
+
     }
 
     public ArrayList<Hex> getAllHexes(){

@@ -5,7 +5,7 @@ import java.awt.*;
 
 /**
  * Created by kyle on 1/18/15.
- * ui.Title panel for MainMenu
+ * ui.Title panel for game.elements.MainMenu
  */
 public class Title extends JLabel{
 

@@ -1,4 +1,4 @@
-import javax.swing.plaf.ColorUIResource;
+package game.elements;
 
 /**
  * Created by kyle on 1/19/15.

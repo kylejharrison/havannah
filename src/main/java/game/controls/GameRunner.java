@@ -1,3 +1,7 @@
+package game.controls;
+
+import game.elements.Board;
+import game.elements.Player;
 import ui.Title;
 
 import javax.swing.*;
@@ -20,7 +24,7 @@ public class GameRunner extends JPanel{
         this.player2 = player2;
     }
     public void run(){
-        JFrame gameFrame = new JFrame("Game Window");
+        JFrame gameFrame = new JFrame("game.elements.Game Window");
         Container container = gameFrame.getContentPane();
         gameFrame.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 

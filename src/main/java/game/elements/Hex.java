@@ -1,3 +1,6 @@
+package game.elements;
+
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
 /**
@@ -9,6 +12,8 @@ public class Hex {
     private int yAxis;
     private int zAxis;
     private ArrayList<Hex> allConnected;
+    public static Double oneUp = (double) Math.round(Math.sin(Math.toRadians(60.0)) * 20.0);
+    public static Double oneAcross = (double) Math.round(Math.cos(Math.toRadians(60.0)) * 20.0);
 
     public void Hex(int xAxis, int yAxis, int zAxis, int maxConnections){
         this.xAxis = xAxis;
@@ -36,6 +41,18 @@ public class Hex {
 
     public void addConnected(Hex connected){
         this.allConnected.add(connected);
+    }
+
+    public static Path2D getHexagonPath(){
+        //TODO: abstract 20.0 to hezSize
+        Double[] xPoints = {20.0, 40.0, 40.0 + oneAcross, 40.0, 20.0, oneAcross};
+        Double[] yPoints = {2 * oneUp, 2 * oneUp, oneUp, 0.0, 0.0, oneUp};
+        Path2D hexagon = new Path2D.Double();
+        hexagon.moveTo(oneAcross, oneUp);
+        for(int i = 0; i < xPoints.length; ++i) {
+            hexagon.lineTo(xPoints[i], yPoints[i]);
+        }
+        return hexagon;
     }
     //In order to removed connected hexes when undoing a move
     public void removeConnected(Hex connected){
