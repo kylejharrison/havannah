@@ -5,6 +5,7 @@ import game.elements.HexValue;
 
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * Randomly choose a move that is valid.
@@ -18,7 +19,6 @@ public class RandomAiPlayer extends AbstractPlayer {
 
     @Override
     public Hex move(List<Hex> currentState) {
-
         Hex move = currentState.get(getRandom(currentState));
         while (!isValidMove(move)){
             move = currentState.get(getRandom(currentState));

@@ -4,12 +4,15 @@ import game.elements.Hex;
 import game.elements.HexValue;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
- * Randomly choose a move that is valid.
+ * See if we can manipulate the game state that we receive to win the game instantly.
  * Created by steve on 29/01/15.
  */
 class CheatingAiPlayer extends AbstractPlayer {
+
+    private static final Logger LOG = Logger.getLogger(CheatingAiPlayer.class.getName());
 
     public CheatingAiPlayer(HexValue playerColour) {
         super(playerColour);
@@ -18,6 +21,7 @@ class CheatingAiPlayer extends AbstractPlayer {
     @Override
     public Hex move(List<Hex> currentState) {
         //can I change to state of the Hexes to ensure I win?
+        LOG.info("THERE'S A KILL SCREEN COMING UP!");
         setAllHexMyColour(currentState);
         return getMove(currentState);
     }

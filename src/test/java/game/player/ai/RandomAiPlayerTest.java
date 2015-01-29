@@ -1,4 +1,4 @@
-package player;
+package game.player.ai;
 
 import game.elements.Hex;
 import game.elements.HexValue;
