@@ -20,7 +20,6 @@ public class Board extends JPanel{
     public Board (int boardSize){
         this.boardSize = boardSize;
         setLayout(null);
-        Title test = new Title("test");
         final HexButton testButton = new HexButton(Color.WHITE);
         final HexButton testButton2 = new HexButton(Color.WHITE);
         this.add(testButton);
@@ -33,7 +32,7 @@ public class Board extends JPanel{
         testButton.setBounds(insets.left, insets.top, size.width, size.height);
         testButton2.setBounds(insets.left, (int) (Math.sin(Math.toRadians(60.0)) * 40.0) + insets.top, size.width, size.height);
 
-        setSize((int) ((boardSize * 40) - (int) Math.round(((boardSize -1) * (Math.cos(Math.toRadians(60.0)) * 40.0))) + insets.left + insets.right + 10),
+        setSize((boardSize * 40) - (int) Math.round(((boardSize -1) * (Math.cos(Math.toRadians(60.0)) * 40.0))) + insets.left + insets.right + 10,
                 ((boardSize + 1) * (int) Math.round(Math.sin(Math.toRadians(60.0)) * 40.0) + insets.top + insets.bottom + 10));
 
         testButton.addActionListener(new ActionListener() {

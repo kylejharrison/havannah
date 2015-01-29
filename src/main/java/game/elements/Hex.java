@@ -12,8 +12,8 @@ public class Hex {
     private int yAxis;
     private int zAxis;
     private ArrayList<Hex> allConnected;
-    public static Double oneUp = (double) Math.round(Math.sin(Math.toRadians(60.0)) * 20.0);
-    public static Double oneAcross = (double) Math.round(Math.cos(Math.toRadians(60.0)) * 20.0);
+    public static Double oneUp = (double) Math.round(Math.sin(Math.toRadians(60.0)) * Board.hexSize);
+    public static Double oneAcross = (double) Math.round(Math.cos(Math.toRadians(60.0)) * Board.hexSize);
 
     public void Hex(int xAxis, int yAxis, int zAxis, int maxConnections){
         this.xAxis = xAxis;
@@ -44,8 +44,7 @@ public class Hex {
     }
 
     public static Path2D getHexagonPath(){
-        //TODO: abstract 20.0 to hezSize
-        Double[] xPoints = {20.0, 40.0, 40.0 + oneAcross, 40.0, 20.0, oneAcross};
+        Double[] xPoints = {Board.hexSize, Board.hexSize * 2, (Board.hexSize * 2) + oneAcross, Board.hexSize * 2, Board.hexSize, oneAcross};
         Double[] yPoints = {2 * oneUp, 2 * oneUp, oneUp, 0.0, 0.0, oneUp};
         Path2D hexagon = new Path2D.Double();
         hexagon.moveTo(oneAcross, oneUp);
