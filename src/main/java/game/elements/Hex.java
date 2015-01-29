@@ -14,6 +14,7 @@ public class Hex {
     private ArrayList<Hex> allConnected;
     public static Double oneUp = (double) Math.round(Math.sin(Math.toRadians(60.0)) * Board.hexSize);
     public static Double oneAcross = 0.5 * Board.hexSize;
+    private HexValue hexValue = HexValue.EMPTY;
 
     public void Hex(int xAxis, int yAxis, int zAxis, int maxConnections){
         this.xAxis = xAxis;
@@ -58,4 +59,11 @@ public class Hex {
         this.allConnected.remove(connected);
     }
 
+    public HexValue getHexValue() {
+        return hexValue;
+    }
+
+    public void setHexValue(HexValue hexValue) {
+        this.hexValue = hexValue;
+    }
 }
