@@ -1,16 +1,18 @@
-package game.player;
+package game.player.ai;
 
 import game.elements.Hex;
 import game.elements.HexValue;
+import game.player.Player;
 
 /**
+ * An AbstractPLayer to share common values and methods.
  * Created by steve on 29/01/15.
  */
-public abstract class AbstractPlayer implements Player {
+abstract class AbstractPlayer implements Player {
 
-    private HexValue playerColour;
+    final HexValue playerColour;
 
-    public AbstractPlayer(HexValue playerColour) {
+    AbstractPlayer(HexValue playerColour) {
         validatePlayerColour(playerColour);
         this.playerColour = playerColour;
     }

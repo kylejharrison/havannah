@@ -2,13 +2,11 @@ package player;
 
 import game.elements.Hex;
 import game.elements.HexValue;
-import game.player.RandomAiPlayer;
+import game.player.ai.RandomAiPlayer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
-
-import static org.testng.Assert.*;
 
 public class RandomAiPlayerTest {
 
@@ -27,7 +25,6 @@ public class RandomAiPlayerTest {
 
     @Test
     public void testWithManyHexOnlyOne() throws Exception {
-        RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
        //TODO: need to wait for KY to make the Hex work in collections (good lesson for him!)
     }
 }
