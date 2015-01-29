@@ -13,7 +13,7 @@ public class Hex {
     private int zAxis;
     private ArrayList<Hex> allConnected;
     public static Double oneUp = (double) Math.round(Math.sin(Math.toRadians(60.0)) * Board.hexSize);
-    public static Double oneAcross = (double) Math.round(Math.cos(Math.toRadians(60.0)) * Board.hexSize);
+    public static Double oneAcross = 0.5 * Board.hexSize;
 
     public void Hex(int xAxis, int yAxis, int zAxis, int maxConnections){
         this.xAxis = xAxis;
