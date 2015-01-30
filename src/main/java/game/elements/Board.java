@@ -48,6 +48,8 @@ public class Board extends JPanel{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("clicked2");
+                System.out.println(insets.top);
+                System.out.println(insets.bottom);
             }
         });
         testButton3.addActionListener(new ActionListener() {

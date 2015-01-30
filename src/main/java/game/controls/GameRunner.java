@@ -31,9 +31,6 @@ public class GameRunner extends JPanel{
         Title title = new Title("This is a new game");
         gameFrame.add(title);
 
-//        Title board = new Title("The board will go here");
-//        gameFrame.add(board);
-
         Board gameBoard = new Board(boardSize);
         gameFrame.add(gameBoard);
 
