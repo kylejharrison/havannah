@@ -34,7 +34,7 @@ public class MainMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // static defaults for now
-                int boardSize = 2;
+                int boardSize = 4;
                 int difficulty = 0;
                 Player ky = new Player("KY", "Blue", true);
                 Player ai = new Player("ai", "Red", false);

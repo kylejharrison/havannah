@@ -45,10 +45,10 @@ public class Hex {
     }
 
     public static Path2D getHexagonPath(){
-        Double[] xPoints = {Board.hexSize, Board.hexSize * 2, (Board.hexSize * 2) + oneAcross, Board.hexSize * 2, Board.hexSize, oneAcross};
-        Double[] yPoints = {2 * oneUp, 2 * oneUp, oneUp, 0.0, 0.0, oneUp};
+        Double[] xPoints = {oneAcross, oneAcross * 3, oneAcross * 4, oneAcross * 3, oneAcross, 0.0};
+        Double[] yPoints = {oneUp * 2, oneUp *2, oneUp, 0.0, 0.0, oneUp};
         Path2D hexagon = new Path2D.Double();
-        hexagon.moveTo(oneAcross, oneUp);
+        hexagon.moveTo(0, oneUp);
         for(int i = 0; i < xPoints.length; ++i) {
             hexagon.lineTo(xPoints[i], yPoints[i]);
         }

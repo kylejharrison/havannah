@@ -2,7 +2,6 @@ package game.player.ai;
 
 import game.elements.Hex;
 import game.elements.HexValue;
-import game.player.ai.RandomAiPlayer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
