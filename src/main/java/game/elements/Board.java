@@ -17,18 +17,18 @@ import static game.elements.Hex.*;
 public class Board extends JPanel{
     private int boardSize;
     public static Double hexSize = 20.0;
-    private Insets insets = getInsets();
+    private Insets insets = getInsets(); //TODO: does this even do anything?
     private ArrayList<Hex> hexList;
-    private int boardWidth = (int) ((boardSize * 4 * hexSize) + insets.left + insets.right);
-    private int boardHeight = (int) ((boardSize * 4 * oneUp) + insets.top + insets.bottom);
-    private Dimension tileSize = new Dimension((int) ((oneAcross * 4) + oneAcross) , (int) (oneUp * 2 + 1));
-
-
+    private int boardWidth;
+    private int boardHeight;
+    private Dimension tileSize = new Dimension((int) ((oneAcross * 4) + oneAcross) , (int) (oneUp * 2 + 1)); //TODO: make oneup round properly
 
     public Board (int boardSize){
         this.boardSize = boardSize;
-        createCanvas();
+        this.boardWidth = (int) ((boardSize * 4 * hexSize) + insets.top + insets.bottom);
+        this.boardHeight = (int) ((boardSize * 4 * oneUp) + insets.top + insets.bottom);
         drawPlayingBoard();
+        createCanvas();
 
 //        final HexButton testButton2 = new HexButton(Color.WHITE);
 //        final HexButton testButton3 = new HexButton(Color. BLUE);
@@ -61,20 +61,43 @@ public class Board extends JPanel{
 //        });
     }
     private void drawPlayingBoard(){
-        for (int i = 0; i < 1; i++) {
-            final HexButton tile = new HexButton(Color.WHITE);
-            this.add(tile);
-            tile.setPreferredSize(tileSize);
-            tile.setBounds(insets.left, insets.top, tileSize.width, tileSize.height);
-            tile.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.println(Math.sin(Math.toRadians(60.0)) * 20.0);
-                    System.out.println(boardSize);
-                    System.out.println(boardHeight);
-                    System.out.println(boardWidth);
-                }
-            });
+        for (int j = 0; j < 1; j++) {
+            for (int i = 0; i < boardSize; i++) {
+                final HexButton tile = new HexButton(Color.WHITE);
+                this.add(tile);
+                tile.setPreferredSize(tileSize);
+                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexSize),
+                        (int) (insets.top + (boardHeight / 2) - oneUp - (2 * oneUp * i)),
+                        tileSize.width, tileSize.height);
+                tile.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        System.out.println(insets.left);
+                        System.out.println((int) (boardSize * 4 * hexSize));
+                        System.out.println(boardHeight);
+                        System.out.println(boardWidth);
+                        System.out.println(insets.top);
+                    }
+                });
+            }
+            for (int i = 0; i < boardSize -1; i++) {
+                final HexButton tile = new HexButton(Color.WHITE);
+                this.add(tile);
+                tile.setPreferredSize(tileSize);
+                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexSize),
+                        (int) (insets.top + (boardHeight / 2) - oneUp + (2 * oneUp ) + (2 * oneUp * i)),
+                        tileSize.width, tileSize.height);
+                tile.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        System.out.println(insets.left);
+                        System.out.println((int) (boardSize * 4 * hexSize));
+                        System.out.println(boardHeight);
+                        System.out.println(boardWidth);
+                        System.out.println(insets.top);
+                    }
+                });
+            }
         }
     }
     private void createCanvas(){
