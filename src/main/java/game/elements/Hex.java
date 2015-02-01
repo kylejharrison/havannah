@@ -3,6 +3,8 @@ package game.elements;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
+import static game.elements.Board.hexWidth;
+
 /**
  * Created by kyle on 1/18/15.
  * The cell object for the board
@@ -12,8 +14,6 @@ public class Hex {
     private int yAxis;
     private int zAxis;
     private ArrayList<Hex> allConnected;
-    public static Double oneUp = (double) Math.round(Math.sin(Math.toRadians(60.0)) * Board.hexSize);
-    public static Double oneAcross = 0.5 * Board.hexSize;
     private HexValue hexValue = HexValue.EMPTY;
 
     public void Hex(int xAxis, int yAxis, int zAxis, int maxConnections){
@@ -45,10 +45,10 @@ public class Hex {
     }
 
     public static Path2D getHexagonPath(){
-        Double[] xPoints = {oneAcross, oneAcross * 3, oneAcross * 4, oneAcross * 3, oneAcross, 0.0};
-        Double[] yPoints = {oneUp * 2, oneUp *2, oneUp, 0.0, 0.0, oneUp};
+        Double[] xPoints = {hexWidth / 4.0, hexWidth * 0.75, hexWidth, hexWidth * 0.75, hexWidth / 4.0, 0.0};
+        Double[] yPoints = {Board.hexHeight, Board.hexHeight, Board.hexHeight / 2.0 , 0.0, 0.0, Board.hexHeight / 2.0};
         Path2D hexagon = new Path2D.Double();
-        hexagon.moveTo(0, oneUp);
+        hexagon.moveTo(0, Board.hexHeight / 2.0);
         for(int i = 0; i < xPoints.length; ++i) {
             hexagon.lineTo(xPoints[i], yPoints[i]);
         }
