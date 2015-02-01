@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Board extends JPanel{
     private int boardSize;
-    public static Double hexWidth = 40.0;
+    public static Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardsize)
     public static Double hexHeight = (double) Math.round(Math.sin(Math.toRadians(60.0)) * hexWidth);
     private Insets insets = getInsets(); //TODO: does this even do anything?
     private ArrayList<Hex> hexList;
@@ -26,47 +26,19 @@ public class Board extends JPanel{
         this.boardSize = boardSize;
         this.boardWidth = (int) ((boardSize * 2 * hexWidth) + insets.top + insets.bottom);
         this.boardHeight = (int) ((boardSize * 2 * hexHeight) + insets.top + insets.bottom);
-        drawPlayingBoard();
         createCanvas();
-
-//        final HexButton testButton2 = new HexButton(Color.WHITE);
-//        final HexButton testButton3 = new HexButton(Color. BLUE);
-
-//        this.add(testButton2);
-//        this.add(testButton3);
-
-
-
-
-//        testButton2.setPreferredSize(tileSize);
-//        testButton3.setPreferredSize(tileSize);
-
-//        testButton2.setBounds(insets.left, (int) (Math.sin(Math.toRadians(60.0)) * 40.0) + insets.top, tileSize.width, tileSize.height);
-//        testButton3.setBounds((int) (insets.left + 20.0 + oneAcross), (int) (insets.top + hexHeight), tileSize.width, tileSize.height);
-
-//        testButton2.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                System.out.println("clicked2");
-//                System.out.println(insets.top);
-//                System.out.println(insets.bottom);
-//            }
-//        });
-//        testButton3.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                System.out.println("Clicked 3");
-//            }
-//        });
+        drawPlayingBoard();
     }
     private void drawPlayingBoard(){
-        for (int j = 0; j < 1; j++) {
+        //Draw tiles rightwards
+        for (int j = 0; j < boardSize; j++) {
+            //draw tiles going upwards
             for (int i = 0; i < boardSize; i++) {
                 final HexButton tile = new HexButton(Color.WHITE);
                 this.add(tile);
                 tile.setPreferredSize(tileSize);
-                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth / 2),
-                        (int) (insets.top + boardHeight / 2 - hexHeight / 2 - hexHeight * i),
+                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth / 2 + j * hexWidth * 0.75),
+                        (int) (insets.top + boardHeight / 2 - hexHeight / 2 - hexHeight * i + j * hexHeight /2),
                         tileSize.width, tileSize.height);
                 tile.addActionListener(new ActionListener() {
                     @Override
@@ -75,12 +47,49 @@ public class Board extends JPanel{
                     }
                 });
             }
-            for (int i = 0; i < boardSize -1; i++) {
+            //draw tiles going downwards
+            for (int i = 0; i < boardSize -1 -j; i++) {
                 final HexButton tile = new HexButton(Color.BLUE);
                 this.add(tile);
                 tile.setPreferredSize(tileSize);
-                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth /2),
-                        (int) (insets.top + boardHeight / 2 - hexHeight /2 + hexHeight + hexHeight * i),
+                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth /2 + j * hexWidth * 0.75),
+                        (int) (insets.top + boardHeight / 2 - hexHeight /2 + hexHeight + hexHeight * i + j * hexHeight /2),
+                        tileSize.width, tileSize.height);
+                tile.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        System.out.println(insets.left);
+                    }
+                });
+            }
+        }
+        // draw tiles leftwards
+        for (int j = 0; j < boardSize -1; j++) {
+            //draw tiles upwards
+            for (int i = 0; i < boardSize - 1 - j; i++) {
+                final HexButton tile = new HexButton(Color.GREEN);
+                this.add(tile);
+                tile.setPreferredSize(tileSize);
+                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth / 2 - hexWidth * 0.75 - j * hexWidth * 0.75),
+                        (int) (insets.top + boardHeight / 2 - hexHeight - hexHeight * i - j * hexHeight /2),
+                        tileSize.width, tileSize.height);
+                final int finalI = i;
+                final int finalJ = j;
+                tile.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        System.out.println(finalI);
+                        System.out.println(finalJ);
+                    }
+                });
+            }
+            //draw tiles downwards
+            for (int i = 0; i < boardSize -1; i++) {
+                final HexButton tile = new HexButton(Color.RED);
+                this.add(tile);
+                tile.setPreferredSize(tileSize);
+                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth / 2 - hexWidth * 0.75 - j * hexWidth * 0.75),
+                        (int) (insets.top + boardHeight / 2 - hexHeight / 2 + hexHeight /2 + hexHeight * i - j * hexHeight /2),
                         tileSize.width, tileSize.height);
                 tile.addActionListener(new ActionListener() {
                     @Override
