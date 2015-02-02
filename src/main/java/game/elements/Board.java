@@ -17,7 +17,7 @@ public class Board extends JPanel{
     public static Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardsize)
     public static Double hexHeight = (double) Math.round(Math.sin(Math.toRadians(60.0)) * hexWidth);
     private Insets insets = getInsets(); //TODO: does this even do anything?
-    private ArrayList<Hex> hexList;
+    private ArrayList<Hex> hexList = new ArrayList<Hex>();
     private int boardWidth;
     private int boardHeight;
     private Dimension tileSize = new Dimension((int) (1 * hexWidth) + 1, (int) (hexHeight + 1)); //TODO: make hexHeight round properly
@@ -29,88 +29,89 @@ public class Board extends JPanel{
         createCanvas();
         drawPlayingBoard();
     }
-    private void drawPlayingBoard(){
+    private HexButton createTile(){
+        //Set Button colour and size
         final HexValue initialValue = HexValue.EMPTY;
         final Color initialColor = initialValue.getColor();
+        final HexButton tile = new HexButton(initialColor);
+        add(tile);
+        tile.setPreferredSize(tileSize);
+        return tile;
+    }
+    private Hex createHex(int x, int y, HexButton tile){
+        //create the Hex for game and assign to a tile
+        final Hex hexForTile = new Hex(x, y);
+        hexForTile.setButton(tile);
+        hexList.add(hexForTile);
+        return hexForTile;
+    }
+    private void addActionListenerToTile(HexButton tile, final Hex hexForTile){
+        tile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //TODO: if get current player is human + is valid move, set hex value
+                System.out.println(hexForTile.getHashCode());
+                hexForTile.setHexValue(HexValue.BLUE);//Example of setting color
+            }
+        });
+    }
+    private void drawPlayingBoard(){
+        final int centreOfBoardHorizontally = (int) (insets.left + (boardWidth / 2) - hexWidth / 2);
+        final int horizontalShift = (int) (hexWidth * 0.75);
+        final int centreOfBoardVertically = (int) (insets.top + boardHeight / 2 - hexHeight / 2);
+        final int verticalShift = (int) (hexHeight / 2);
         //Draw tiles rightwards
         for (int x = 0; x < boardSize; x++) {
             //draw tiles going upwards
             for (int y = 0; y < boardSize; y++) {
-                //Set Button layout stuff
-                final HexButton tile = new HexButton(initialColor);
-                add(tile);
-                tile.setPreferredSize(tileSize);
-                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth / 2 + x * hexWidth * 0.75),
-                        (int) (insets.top + boardHeight / 2 - hexHeight / 2 - hexHeight * y + x * hexHeight /2),
+                // create tile and set bounds
+                final HexButton tile = createTile();
+                tile.setBounds(centreOfBoardHorizontally + x * horizontalShift,
+                        (int) (centreOfBoardVertically - hexHeight * y + x * verticalShift),
                         tileSize.width, tileSize.height);
                 //create the hex and add to the list
-                final Hex hexForTile = new Hex(x, -y);
-                hexForTile.setButton(tile);
-//                this.hexList.add(hexForTile); TODO: doesn't work :(
-                tile.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        //TODO: if get current player is human + is valid move, set hex value
-                        System.out.println(hexForTile.getHashCode());
-                        hexForTile.setHexValue(HexValue.BLUE);//Example of setting color
-                    }
-                });
+                final Hex hexForTile = createHex(x, -y, tile);
+                // Finally join the hex to the tile and all is swell
+                addActionListenerToTile(tile, hexForTile);
             }
             //draw tiles going downwards
             for (int y = 0; y < boardSize -1 -x; y++) {
-                //Set Button layout stuff
-                final HexButton tile = new HexButton(initialColor);
-                this.add(tile);
-                tile.setPreferredSize(tileSize);
-                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth /2 + x * hexWidth * 0.75),
-                        (int) (insets.top + boardHeight / 2 - hexHeight /2 + hexHeight + hexHeight * y + x * hexHeight /2),
+                // create tile and set bounds
+                final HexButton tile = createTile();
+                tile.setBounds(centreOfBoardHorizontally + x * horizontalShift,
+                        (int) (centreOfBoardVertically + hexHeight + hexHeight * y + x * verticalShift),
                         tileSize.width, tileSize.height);
                 //create the hex and add to the list
-                final Hex hexForTile = new Hex(x, y +1);
-//                this.hexList.add(hexForTile); TODO: doesn't work :(
-
-                tile.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        System.out.println(hexForTile.getHashCode());
-                    }
-                });
+                final Hex hexForTile = createHex(x, y + 1, tile);
+                // Finally join the hex to the tile and all is swell
+                addActionListenerToTile(tile, hexForTile);
             }
         }
         // draw tiles leftwards
         for (int x = 0; x < boardSize -1; x++) {
             //draw tiles upwards
             for (int y = 0; y < boardSize - 1 - x; y++) {
-                final HexButton tile = new HexButton(Color.GREEN);
-                this.add(tile);
-                tile.setPreferredSize(tileSize);
-                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth / 2 - hexWidth * 0.75 - x * hexWidth * 0.75),
-                        (int) (insets.top + boardHeight / 2 - hexHeight - hexHeight * y - x * hexHeight /2),
+                // create tile and set bounds
+                final HexButton tile = createTile();
+                tile.setBounds(centreOfBoardHorizontally - horizontalShift - x * horizontalShift,
+                        (int) (centreOfBoardVertically - verticalShift  - hexHeight * y - x * verticalShift),
                         tileSize.width, tileSize.height);
-                final int finalI = y;
-                final int finalJ = x;
-                tile.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        System.out.println(finalI);
-                        System.out.println(finalJ);
-                    }
-                });
+                //create the hex and add to the list
+                final Hex hexForTile = createHex(-x - 1, -y, tile);
+                // Finally join the hex to the tile and all is swell
+                addActionListenerToTile(tile, hexForTile);
             }
             //draw tiles downwards
             for (int y = 0; y < boardSize -1; y++) {
-                final HexButton tile = new HexButton(Color.RED);
-                this.add(tile);
-                tile.setPreferredSize(tileSize);
-                tile.setBounds((int) (insets.left + (boardWidth / 2) - hexWidth / 2 - hexWidth * 0.75 - x * hexWidth * 0.75),
-                        (int) (insets.top + boardHeight / 2 - hexHeight / 2 + hexHeight /2 + hexHeight * y - x * hexHeight /2),
+                // create tile and set bounds
+                final HexButton tile = createTile();
+                tile.setBounds(centreOfBoardHorizontally - horizontalShift - x * horizontalShift,
+                        (int) (centreOfBoardVertically + verticalShift + hexHeight * y - x * verticalShift),
                         tileSize.width, tileSize.height);
-                tile.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        System.out.println(insets.left);
-                    }
-                });
+                //create the hex and add to the list
+                final Hex hexForTile = createHex(-x -1, y + 1, tile);
+                // Finally join the hex to the tile and all is swell
+                addActionListenerToTile(tile, hexForTile);
             }
         }
     }
