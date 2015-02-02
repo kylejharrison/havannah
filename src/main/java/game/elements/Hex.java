@@ -1,5 +1,7 @@
 package game.elements;
 
+import ui.HexButton;
+
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
@@ -12,15 +14,14 @@ import static game.elements.Board.hexWidth;
 public class Hex {
     private int xAxis;
     private int yAxis;
-    private int zAxis;
-    private ArrayList<Hex> allConnected;
     private HexValue hexValue = HexValue.EMPTY;
+    private int hashCode;
+    private HexButton button;
 
-    public void Hex(int xAxis, int yAxis, int zAxis, int maxConnections){
+    public Hex(int xAxis, int yAxis){
         this.xAxis = xAxis;
         this.yAxis = yAxis;
-        this.zAxis = zAxis;
-        this.allConnected = new ArrayList<Hex>(maxConnections);
+        hashCode = 100 * xAxis + yAxis;
     }
 
     //All getters
@@ -30,18 +31,6 @@ public class Hex {
 
     public int getyAxis(){
         return this.yAxis;
-    }
-
-    public int getzAxis(){
-        return this.zAxis;
-    }
-
-    public ArrayList<Hex> getAllConnected(){
-        return this.allConnected;
-    }
-
-    public void addConnected(Hex connected){
-        this.allConnected.add(connected);
     }
 
     public static Path2D getHexagonPath(){
@@ -54,16 +43,22 @@ public class Hex {
         }
         return hexagon;
     }
-    //In order to removed connected hexes when undoing a move
-    public void removeConnected(Hex connected){
-        this.allConnected.remove(connected);
-    }
-
     public HexValue getHexValue() {
         return hexValue;
     }
 
     public void setHexValue(HexValue hexValue) {
         this.hexValue = hexValue;
+        if (button != null){
+            button.changeColor(hexValue.getColor());
+        }
+    }
+
+    public int getHashCode() {
+        return hashCode;
+    }
+
+    public void setButton(HexButton button) {
+        this.button = button;
     }
 }

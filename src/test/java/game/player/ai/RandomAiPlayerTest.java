@@ -17,7 +17,7 @@ public class RandomAiPlayerTest {
     @Test
     public void testWithOneHex() throws Exception {
         RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
-        Hex onlyEmptyOne = new Hex();
+        Hex onlyEmptyOne = new Hex(0, 0);
         Hex move = randomAiPlayer.move(Collections.singletonList(onlyEmptyOne));
         Assert.assertEquals(move, onlyEmptyOne);
     }

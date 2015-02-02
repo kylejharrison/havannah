@@ -59,7 +59,7 @@ public class CheatingAiPlayerTest {
     private static List<Hex> getHexCollectionForValue(HexValue value, int number) {
         ArrayList<Hex> hexes = new ArrayList<Hex>();
         for (int i = 0; i < number; i++) {
-            Hex e = new Hex();
+            Hex e = new Hex(0, i);
             e.setHexValue(value);
             hexes.add(e);
         }
