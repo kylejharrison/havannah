@@ -50,7 +50,9 @@ public class Board extends JPanel{
                 tile.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
+                        //TODO: if get current player is human + is valid move, set hex value
                         System.out.println(hexForTile.getHashCode());
+                        hexForTile.setHexValue(HexValue.BLUE);//Example of setting color
                     }
                 });
             }
