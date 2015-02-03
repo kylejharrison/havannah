@@ -20,14 +20,13 @@ public class BoardTest {
 
     @Test
     public void testHexListContainsAllUniqueValues() throws Exception{
-        Board testBoard = new Board(8);
+        Board testBoard = new Board(50);
         ArrayList<Hex> hexList = testBoard.getHexList();
-        Set<Integer> hashCodeSet = new HashSet<Integer>();
+        Set<Hex> hexSet = new HashSet<Hex>();
         for (Hex hex: hexList){
-            int hashCode = hex.getHashCode();
-            hashCodeSet.add(hashCode);
+            hexSet.add(hex);
         }
-        assertEquals(hashCodeSet.size(), hexList.size());
+        assertEquals(hexSet.size(), hexList.size());
     }
 
     @Test
@@ -36,7 +35,7 @@ public class BoardTest {
         Board testBoard = new Board(boardSize);
         ArrayList<Hex> hexList = testBoard.getHexList();
         for (Hex hex: hexList){
-            assertTrue(Math.abs(hex.getxAxis()) < boardSize && Math.abs(hex.getyAxis()) < boardSize);
+            assertTrue(Math.abs(hex.getXAxis()) < boardSize && Math.abs(hex.getYAxis()) < boardSize);
         }
     }
 }

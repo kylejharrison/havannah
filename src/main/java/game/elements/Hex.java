@@ -14,7 +14,6 @@ public class Hex {
     private int xAxis;
     private int yAxis;
     private HexValue hexValue = HexValue.EMPTY;
-    final private int hashCode;
     final private HexButton button;
 
     public Hex(int xAxis, int yAxis){
@@ -25,19 +24,15 @@ public class Hex {
         this.xAxis = xAxis;
         this.yAxis = yAxis;
         this.button = button;
-        this.hashCode = generateHashCode();
     }
 
-    private int generateHashCode(){
-        return 100 * xAxis + yAxis;
-    }
 
     //All getters
-    public int getxAxis(){
+    public int getXAxis(){
         return this.xAxis;
     }
 
-    public int getyAxis(){
+    public int getYAxis(){
         return this.yAxis;
     }
 
@@ -62,8 +57,27 @@ public class Hex {
         }
     }
 
-    public int getHashCode() {
-        return hashCode;
+    @Override
+    public int hashCode() {
+        int result = xAxis;
+        result = 31 * result + yAxis;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Hex hex = (Hex) o;
+
+        return xAxis == hex.xAxis && yAxis == hex.yAxis;
+
+    }
+
+    @Override
+    public String toString(){
+        return String.format("%d,%d", xAxis, yAxis);
     }
 
 }
