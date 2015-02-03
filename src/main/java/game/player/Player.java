@@ -2,7 +2,7 @@ package game.player;
 
 import game.elements.Hex;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * The contract of what a player (ai) needs to do to play the game.
@@ -15,6 +15,6 @@ public interface Player {
      * @param currentState current state of the board
      * @return the single Hex that the player wants to play.
      */
-    Hex move(List<Hex> currentState);
+    Hex move(Set<Hex> currentState);
 
 }

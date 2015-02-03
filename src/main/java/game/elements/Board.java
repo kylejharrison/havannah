@@ -6,7 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by kyle on 1/18/15.
@@ -14,10 +15,10 @@ import java.util.ArrayList;
  */
 public class Board extends JPanel{
     private int boardSize;
-    public static Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardsize)
+    public static Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardSize)
     public static Double hexHeight = (double) Math.round(Math.sin(Math.toRadians(60.0)) * hexWidth);
     private Insets insets = getInsets(); //TODO: does this even do anything?
-    private ArrayList<Hex> hexList = new ArrayList<Hex>();
+    private Set<Hex> allHexes = new HashSet<Hex>();
     private int boardWidth;
     private int boardHeight;
     private Dimension tileSize = new Dimension((int) (1 * hexWidth) + 1, (int) (hexHeight + 1)); //TODO: make hexHeight round properly
@@ -41,7 +42,7 @@ public class Board extends JPanel{
     private Hex createHex(int x, int y, HexButton tile){
         //create the Hex for game and assign to a tile
         final Hex hexForTile = new Hex(x, y, tile);
-        hexList.add(hexForTile);
+        allHexes.add(hexForTile);
         return hexForTile;
     }
     private void addActionListenerToTile(HexButton tile, final Hex hexForTile){
@@ -120,7 +121,7 @@ public class Board extends JPanel{
         setBorder(BorderFactory.createLineBorder(Color.BLUE));
     }
 
-    public ArrayList<Hex> getHexList() {
-        return hexList;
+    public Set<Hex> getAllHexes() {
+        return allHexes;
     }
 }

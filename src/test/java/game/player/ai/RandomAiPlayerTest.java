@@ -6,6 +6,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import static game.player.TestHelpers.getHexCollection;
 
 public class RandomAiPlayerTest {
 
@@ -18,12 +22,31 @@ public class RandomAiPlayerTest {
     public void testWithOneHex() throws Exception {
         RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
         Hex onlyEmptyOne = new Hex(0, 0);
-        Hex move = randomAiPlayer.move(Collections.singletonList(onlyEmptyOne));
+        Hex move = randomAiPlayer.move(Collections.singleton(onlyEmptyOne));
         Assert.assertEquals(move, onlyEmptyOne);
     }
 
     @Test
     public void testWithManyHexOnlyOne() throws Exception {
-       //TODO: need to wait for KY to make the Hex work in collections (good lesson for him!)
+        RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
+        Set<Hex> currentState = getHexCollection(3,4,0);
+        Hex onlyEmpty = new Hex(-1,-1);
+        currentState.add(onlyEmpty);
+        Hex move = randomAiPlayer.move(currentState);
+        Assert.assertEquals(move,onlyEmpty);
+    }
+
+    @Test
+    public void testWithManyHexMultipleChoices() throws Exception{
+        RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
+        Set<Hex> currentState = getHexCollection(10,10,0);
+        Set<Hex> multipleChoice = new HashSet<Hex>();
+        for (int i = -1; i > -10 ; i--) {
+            Hex empty = new Hex(0,i);
+            multipleChoice.add(empty);
+        }
+        currentState.addAll(multipleChoice);
+        Hex move = randomAiPlayer.move(currentState);
+        Assert.assertTrue(multipleChoice.contains(move));
     }
 }

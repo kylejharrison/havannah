@@ -3,9 +3,8 @@ package game.player.ai;
 import game.elements.Hex;
 import game.elements.HexValue;
 
-import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
+import java.util.Set;
 
 /**
  * Randomly choose a move that is valid.
@@ -18,15 +17,24 @@ public class RandomAiPlayer extends AbstractPlayer {
     }
 
     @Override
-    public Hex move(List<Hex> currentState) {
-        Hex move = currentState.get(getRandom(currentState));
+    public Hex move(Set<Hex> currentState) {
+        Hex move = getRandomHex(currentState);
         while (!isValidMove(move)){
-            move = currentState.get(getRandom(currentState));
+            move = getRandomHex(currentState);
         }
         return move;
     }
 
-    private static int getRandom(List<Hex> currentState) {
-        return new Random().nextInt(currentState.size());
+    private static Hex getRandomHex(Set<Hex> currentState) {
+        int random = new Random().nextInt(currentState.size());
+        int i = 0;
+        for (Hex hex: currentState){
+            if (i == random){
+                return hex;
+            }
+            i++;
+        }
+        //return null if doesn't return a hex... although it always will. unless empty maybe.
+        return null;
     }
 }

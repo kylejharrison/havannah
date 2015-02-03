@@ -2,8 +2,6 @@ package game.elements;
 
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
@@ -12,30 +10,37 @@ import static org.testng.Assert.assertTrue;
 public class BoardTest {
 
     @Test
-    public void testHexListContainsCorrectNumberOfHexes() throws Exception {
-        Board testBoard = new Board(4);
-        ArrayList<Hex> hexList = testBoard.getHexList();
-        assertEquals(hexList.size(), 37);
-    }
-
-    @Test
-    public void testHexListContainsAllUniqueValues() throws Exception{
-        Board testBoard = new Board(50);
-        ArrayList<Hex> hexList = testBoard.getHexList();
-        Set<Hex> hexSet = new HashSet<Hex>();
-        for (Hex hex: hexList){
-            hexSet.add(hex);
+    public void testHexCollectionContainsCorrectNumberOfHexes() throws Exception {
+        for (int i = 2; i < 100; i++) {
+            Board testBoard = new Board(i);
+            Set<Hex> hexList = testBoard.getAllHexes();
+            assertEquals(hexList.size(), (int)((3 * (Math.pow(i,2))) - (3 * i) +1));
         }
-        assertEquals(hexSet.size(), hexList.size());
     }
 
     @Test
     public void testHexCoordinatesAreNotOutOfRange() throws Exception{
-        int boardSize = 5;
-        Board testBoard = new Board(boardSize);
-        ArrayList<Hex> hexList = testBoard.getHexList();
-        for (Hex hex: hexList){
-            assertTrue(Math.abs(hex.getXAxis()) < boardSize && Math.abs(hex.getYAxis()) < boardSize);
+        for (int boardSize = 2; boardSize < 100; boardSize++) {
+            Board testBoard = new Board(boardSize);
+            Set<Hex> hexList = testBoard.getAllHexes();
+            for (Hex hex : hexList) {
+                int xAxis = hex.getXAxis();
+                int yAxis = hex.getYAxis();
+                assertTrue(Math.abs(xAxis) < boardSize, "all x cannot be greater than boardSize");
+                if (xAxis >= 0) {
+                    if (yAxis >= 0) {
+                        assertTrue(yAxis < boardSize - xAxis, "Positive Y cannot be bigger than boardSize - X");
+                    } else {
+                        assertTrue(yAxis > -boardSize, "Negative Ys cannot be smaller than boardSize");
+                    }
+                } else {
+                    if (yAxis >= 0) {
+                        assertTrue(yAxis < boardSize, "Positive Ys cannot be bigger than boardSize when X is negative");
+                    } else {
+                        assertTrue(yAxis > xAxis - boardSize, "Negative Ys cannot be smaller than X - boardSize when X is negative");
+                    }
+                }
+            }
         }
     }
 }
