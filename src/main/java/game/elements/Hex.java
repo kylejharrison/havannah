@@ -3,7 +3,6 @@ package game.elements;
 import ui.HexButton;
 
 import java.awt.geom.Path2D;
-import java.util.ArrayList;
 
 import static game.elements.Board.hexWidth;
 
@@ -15,13 +14,25 @@ public class Hex {
     private int xAxis;
     private int yAxis;
     private HexValue hexValue = HexValue.EMPTY;
-    private int hashCode;
-    private HexButton button;
+    final private int hashCode;
+    final private HexButton button;
 
     public Hex(int xAxis, int yAxis){
         this.xAxis = xAxis;
         this.yAxis = yAxis;
-        hashCode = 100 * xAxis + yAxis;
+        this.hashCode = generateHashCode();
+        button = null;
+    }
+
+    public Hex(int xAxis, int yAxis, HexButton button){
+        this.xAxis = xAxis;
+        this.yAxis = yAxis;
+        this.hashCode = generateHashCode();
+        this.button = button;
+    }
+
+    private int generateHashCode(){
+        return 100 * xAxis + yAxis;
     }
 
     //All getters
@@ -58,7 +69,4 @@ public class Hex {
         return hashCode;
     }
 
-    public void setButton(HexButton button) {
-        this.button = button;
-    }
 }
