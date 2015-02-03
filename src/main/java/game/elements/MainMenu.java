@@ -63,11 +63,8 @@ public class MainMenu extends JPanel{
             public void actionPerformed(ActionEvent actionEvent) {
                 // static defaults for now
                 int boardSize = 8;
-                int difficulty = 0;
-                Player ky = new Player("KY", "Blue", true);
-                Player ai = new Player("ai", "Red", false);
                 //Hands off the running of the game to the game.controls.GameRunner
-                GameRunner gameRunner = new GameRunner(boardSize, difficulty, ky, ai);
+                GameRunner gameRunner = new GameRunner(boardSize);
                 gameRunner.run();
             }
         });

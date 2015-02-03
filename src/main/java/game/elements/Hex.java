@@ -18,17 +18,14 @@ public class Hex {
     final private HexButton button;
 
     public Hex(int xAxis, int yAxis){
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
-        this.hashCode = generateHashCode();
-        button = null;
+        this(xAxis, yAxis, null);
     }
 
     public Hex(int xAxis, int yAxis, HexButton button){
         this.xAxis = xAxis;
         this.yAxis = yAxis;
-        this.hashCode = generateHashCode();
         this.button = button;
+        this.hashCode = generateHashCode();
     }
 
     private int generateHashCode(){
