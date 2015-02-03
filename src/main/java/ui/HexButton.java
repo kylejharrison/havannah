@@ -10,6 +10,7 @@ import java.awt.geom.Path2D;
 
 /**
  * Created by kyle on 1/24/15.
+ * Overrides a normal button to be hexagon shaped
  */
 public class HexButton extends JButton {
     private Color color;
@@ -26,7 +27,7 @@ public class HexButton extends JButton {
         this.setBorderPainted(true);
         this.setFocusPainted(false);
         this.setBorder(hex);
-        this.setOpaque(true);
+        this.setOpaque(false);
     }
     @Override
     public void paintComponent(Graphics g){
