@@ -1,5 +1,7 @@
 package game.player.ai;
 
+import game.elements.Corner;
+import game.elements.Edge;
 import game.elements.HexImpl;
 import game.elements.HexValue;
 import org.testng.Assert;
@@ -21,7 +23,7 @@ public class RandomAiPlayerTest {
     @Test
     public void testWithOneHex() throws Exception {
         RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
-        HexImpl onlyEmptyOne = new HexImpl(0, 0);
+        HexImpl onlyEmptyOne = new HexImpl(0, 0, Edge.NOTANEDGE, Corner.NOTACORNER);
         HexImpl move = randomAiPlayer.move(Collections.singleton(onlyEmptyOne));
         Assert.assertEquals(move, onlyEmptyOne);
     }
@@ -30,7 +32,7 @@ public class RandomAiPlayerTest {
     public void testWithManyHexOnlyOne() throws Exception {
         RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
         Set<HexImpl> currentState = getHexCollection(3,4,0);
-        HexImpl onlyEmpty = new HexImpl(-1,-1);
+        HexImpl onlyEmpty = new HexImpl(-1,-1, Edge.NOTANEDGE, Corner.NOTACORNER);
         currentState.add(onlyEmpty);
         HexImpl move = randomAiPlayer.move(currentState);
         Assert.assertEquals(move,onlyEmpty);
@@ -42,7 +44,7 @@ public class RandomAiPlayerTest {
         Set<HexImpl> currentState = getHexCollection(10,10,0);
         Set<HexImpl> multipleChoice = new HashSet<HexImpl>();
         for (int i = -1; i > -10 ; i--) {
-            HexImpl empty = new HexImpl(0,i);
+            HexImpl empty = new HexImpl(0,i, Edge.NOTANEDGE, Corner.NOTACORNER);
             multipleChoice.add(empty);
         }
         currentState.addAll(multipleChoice);

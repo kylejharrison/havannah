@@ -14,11 +14,11 @@ public class HexImpl implements Hex {
     final private Edge edge;
     final private Corner corner;
 
-    public HexImpl(int xAxis, int yAxis){
-        this(xAxis, yAxis, null, Edge.NOTANEDGE, Corner.NOTACORNER);
+    public HexImpl(int xAxis, int yAxis, Edge edge, Corner corner){
+        this(xAxis, yAxis, edge, corner, null);
     }
 
-    public HexImpl(int xAxis, int yAxis, HexButton button, Edge edge, Corner corner){
+    public HexImpl(int xAxis, int yAxis, Edge edge, Corner corner, HexButton button){
         this.xAxis = xAxis;
         this.yAxis = yAxis;
         this.button = button;

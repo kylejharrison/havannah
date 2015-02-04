@@ -41,7 +41,7 @@ public class Board extends JPanel{
     }
     private HexImpl createHex(int x, int y, HexButton tile){
         //create the Hex for game and assign to a tile
-        final HexImpl hexForTile = new HexImpl(x, y, tile, Edge.NOTANEDGE, Corner.NOTACORNER); //TODO: make edge and corner work properly
+        final HexImpl hexForTile = new HexImpl(x, y, Edge.NOTANEDGE, Corner.NOTACORNER, tile); //TODO: make edge and corner work properly
         allHexes.add(hexForTile);
         return hexForTile;
     }

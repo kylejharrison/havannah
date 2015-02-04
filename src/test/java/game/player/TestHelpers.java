@@ -1,5 +1,7 @@
 package game.player;
 
+import game.elements.Corner;
+import game.elements.Edge;
 import game.elements.HexImpl;
 import game.elements.HexValue;
 
@@ -22,7 +24,7 @@ public class TestHelpers {
     private static Set<HexImpl> getHexCollectionForValue(HexValue value, int number, int startNumber) {
         Set<HexImpl> hexes = new HashSet<HexImpl>();
         for (int i = startNumber; i < number; i++) {
-            HexImpl e = new HexImpl(0, i);
+            HexImpl e = new HexImpl(0, i, Edge.NOTANEDGE, Corner.NOTACORNER);
             e.setHexValue(value);
             hexes.add(e);
         }
