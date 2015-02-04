@@ -1,12 +1,13 @@
 package ui;
 
-import game.elements.Hex;
+import game.elements.PathHelper;
 
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
 import java.awt.geom.Path2D;
 
 /**
+ * Creates the Hexagon border used by the button for hex
  * Created by kyle on 1/24/15.
  */
 public class HexBorder extends AbstractBorder{
@@ -17,7 +18,7 @@ public class HexBorder extends AbstractBorder{
     }
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height){
-        Path2D hexagon = Hex.getHexagonPath();
+        Path2D hexagon = PathHelper.getHexagonPath();
         g.setColor(color);
         ((Graphics2D) g).draw(hexagon);
     }

@@ -1,6 +1,6 @@
 package ui;
 
-import game.elements.Hex;
+import game.elements.PathHelper;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -31,7 +31,7 @@ public class HexButton extends JButton {
     }
     @Override
     public void paintComponent(Graphics g){
-        Path2D hexagon = Hex.getHexagonPath();
+        Path2D hexagon = PathHelper.getHexagonPath();
         g.setColor(color);
         ((Graphics2D) g).fill(hexagon);
     }

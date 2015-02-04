@@ -1,83 +1,53 @@
 package game.elements;
 
-import ui.HexButton;
-
-import java.awt.geom.Path2D;
-
-import static game.elements.Board.hexWidth;
-
 /**
- * Created by kyle on 1/18/15.
- * The cell object for the board
+ * Created by kyle on 2/4/15.
+ * The contract of what you can do with the Hex-  the cell, tile or button (depending on what I'm feeling at the time)
+ * of the game board.
  */
-public class Hex {
-    private int xAxis;
-    private int yAxis;
-    private HexValue hexValue = HexValue.EMPTY;
-    final private HexButton button;
-
-    public Hex(int xAxis, int yAxis){
-        this(xAxis, yAxis, null);
-    }
-
-    public Hex(int xAxis, int yAxis, HexButton button){
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
-        this.button = button;
-    }
+public interface Hex {
 
 
-    //All getters
-    public int getXAxis(){
-        return this.xAxis;
-    }
+    /**
+     * The X axis is the vertical column of hexes, where 0 is the middle column, and increases from left to right.
+     * therefore the range will be 1 - boardSize on the left edge to boardSize -1 on the right edge.
+     * @return the X Axis value of the Hex.
+     */
+    int getXAxis();
 
-    public int getYAxis(){
-        return this.yAxis;
-    }
 
-    public static Path2D getHexagonPath(){
-        Double[] xPoints = {hexWidth / 4.0, hexWidth * 0.75, hexWidth, hexWidth * 0.75, hexWidth / 4.0, 0.0};
-        Double[] yPoints = {Board.hexHeight, Board.hexHeight, Board.hexHeight / 2.0 , 0.0, 0.0, Board.hexHeight / 2.0};
-        Path2D hexagon = new Path2D.Double();
-        hexagon.moveTo(0, Board.hexHeight / 2.0);
-        for(int i = 0; i < xPoints.length; ++i) {
-            hexagon.lineTo(xPoints[i], yPoints[i]);
-        }
-        return hexagon;
-    }
-    public HexValue getHexValue() {
-        return hexValue;
-    }
+    /**
+     * As the Board is hexagon shaped, the y Axis is the diagonal from the top left corner to the bottom right corner.
+     * The values increase going downwards and decrease going upwards (obviously).
+     * E.g. the top left corner hex is 0 and the bottom left is 0;
+     * the top right is 1 - boardSize and bottom left is boardSize -1
+     * @return the Y Axis value of the Hex.
+     */
+    int getYAxis();
 
-    public void setHexValue(HexValue hexValue) {
-        this.hexValue = hexValue;
-        if (button != null){
-            button.changeColor(hexValue.getColor());
-        }
-    }
+    /**
+     * HexValue is the value (team it belongs to) of the Hex
+     * @return hexValue of the hex
+     */
+    HexValue getHexValue();
 
-    @Override
-    public int hashCode() {
-        int result = xAxis;
-        result = 31 * result + yAxis;
-        return result;
-    }
+    /**
+     * Next to meaning is one of the maximum 6 possible hexes immediately adjacent to the hex
+     * NOTE: a hex is not next to itself
+     * @param anotherHex to check if the hex is next to it
+     * @return boolean whether the two hexes are next to each other
+     */
+    boolean isNextTo(Hex anotherHex);
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    /**
+     * The edge a hex belongs to. Note, an edge IS NOT a corner.
+     * @return the edge it belongs to, NOTANEDGE if not on any edge
+     */
+    Edge getEdge();
 
-        Hex hex = (Hex) o;
-
-        return xAxis == hex.xAxis && yAxis == hex.yAxis;
-
-    }
-
-    @Override
-    public String toString(){
-        return String.format("%d,%d", xAxis, yAxis);
-    }
-
+    /**
+     * Which corner a hex is. Note, a corner IS NOT an edge
+     * @return which corner the hex is, NOTACORNER if not a corner
+     */
+    Corner getCorner();
 }

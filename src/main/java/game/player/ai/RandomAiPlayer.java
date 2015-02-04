@@ -1,6 +1,6 @@
 package game.player.ai;
 
-import game.elements.Hex;
+import game.elements.HexImpl;
 import game.elements.HexValue;
 
 import java.util.Random;
@@ -17,18 +17,18 @@ public class RandomAiPlayer extends AbstractPlayer {
     }
 
     @Override
-    public Hex move(Set<Hex> currentState) {
-        Hex move = getRandomHex(currentState);
+    public HexImpl move(Set<HexImpl> currentState) {
+        HexImpl move = getRandomHex(currentState);
         while (!isValidMove(move)){
             move = getRandomHex(currentState);
         }
         return move;
     }
 
-    private static Hex getRandomHex(Set<Hex> currentState) {
+    private static HexImpl getRandomHex(Set<HexImpl> currentState) {
         int random = new Random().nextInt(currentState.size());
         int i = 0;
-        for (Hex hex: currentState){
+        for (HexImpl hex: currentState){
             if (i == random){
                 return hex;
             }

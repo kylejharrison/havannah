@@ -18,7 +18,7 @@ public class Board extends JPanel{
     public static Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardSize)
     public static Double hexHeight = (double) Math.round(Math.sin(Math.toRadians(60.0)) * hexWidth);
     private Insets insets = getInsets(); //TODO: does this even do anything?
-    private Set<Hex> allHexes = new HashSet<Hex>();
+    private Set<HexImpl> allHexes = new HashSet<HexImpl>();
     private int boardWidth;
     private int boardHeight;
     private Dimension tileSize = new Dimension((int) (1 * hexWidth) + 1, (int) (hexHeight + 1)); //TODO: make hexHeight round properly
@@ -39,13 +39,13 @@ public class Board extends JPanel{
         tile.setPreferredSize(tileSize);
         return tile;
     }
-    private Hex createHex(int x, int y, HexButton tile){
+    private HexImpl createHex(int x, int y, HexButton tile){
         //create the Hex for game and assign to a tile
-        final Hex hexForTile = new Hex(x, y, tile);
+        final HexImpl hexForTile = new HexImpl(x, y, tile, Edge.NOTANEDGE, Corner.NOTACORNER); //TODO: make edge and corner work properly
         allHexes.add(hexForTile);
         return hexForTile;
     }
-    private void addActionListenerToTile(HexButton tile, final Hex hexForTile){
+    private void addActionListenerToTile(HexButton tile, final HexImpl hexForTile){
         tile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -70,7 +70,7 @@ public class Board extends JPanel{
                         (int) (centreOfBoardVertically - hexHeight * y + x * verticalShift),
                         tileSize.width, tileSize.height);
                 //create the hex and add to the list
-                final Hex hexForTile = createHex(x, -y, tile);
+                final HexImpl hexForTile = createHex(x, -y, tile);
                 // Finally join the hex to the tile and all is swell
                 addActionListenerToTile(tile, hexForTile);
             }
@@ -82,7 +82,7 @@ public class Board extends JPanel{
                         (int) (centreOfBoardVertically + hexHeight + hexHeight * y + x * verticalShift),
                         tileSize.width, tileSize.height);
                 //create the hex and add to the list
-                final Hex hexForTile = createHex(x, y + 1, tile);
+                final HexImpl hexForTile = createHex(x, y + 1, tile);
                 // Finally join the hex to the tile and all is swell
                 addActionListenerToTile(tile, hexForTile);
             }
@@ -97,7 +97,7 @@ public class Board extends JPanel{
                         (int) (centreOfBoardVertically - verticalShift  - hexHeight * y - x * verticalShift),
                         tileSize.width, tileSize.height);
                 //create the hex and add to the list
-                final Hex hexForTile = createHex(-x - 1, -y, tile);
+                final HexImpl hexForTile = createHex(-x - 1, -y, tile);
                 // Finally join the hex to the tile and all is swell
                 addActionListenerToTile(tile, hexForTile);
             }
@@ -109,7 +109,7 @@ public class Board extends JPanel{
                         (int) (centreOfBoardVertically + verticalShift + hexHeight * y - x * verticalShift),
                         tileSize.width, tileSize.height);
                 //create the hex and add to the list
-                final Hex hexForTile = createHex(-x -1, y + 1, tile);
+                final HexImpl hexForTile = createHex(-x -1, y + 1, tile);
                 // Finally join the hex to the tile and all is swell
                 addActionListenerToTile(tile, hexForTile);
             }
@@ -121,7 +121,7 @@ public class Board extends JPanel{
         setBorder(BorderFactory.createLineBorder(Color.BLUE));
     }
 
-    public Set<Hex> getAllHexes() {
+    public Set<HexImpl> getAllHexes() {
         return allHexes;
     }
 }
