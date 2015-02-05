@@ -25,7 +25,7 @@ public class RandomAiPlayer extends AbstractPlayer {
         return move;
     }
 
-    private static HexImpl getRandomHex(Set<HexImpl> currentState) {
+    static HexImpl getRandomHex(Set<HexImpl> currentState) {
         int random = new Random().nextInt(currentState.size());
         int i = 0;
         for (HexImpl hex: currentState){
