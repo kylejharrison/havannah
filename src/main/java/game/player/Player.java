@@ -1,6 +1,6 @@
 package game.player;
 
-import game.elements.Hex;
+import game.elements.HexImpl;
 
 import java.util.Set;
 
@@ -15,6 +15,6 @@ public interface Player {
      * @param currentState current state of the board
      * @return the single Hex that the player wants to play.
      */
-    Hex move(Set<Hex> currentState);
+    HexImpl move(Set<HexImpl> currentState);
 
 }

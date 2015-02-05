@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Controls all aspects of the game
  */
 public class Game {
-    private ArrayList<Hex> allHexes;
+    private ArrayList<HexImpl> allHexes;
     private boolean winner;
     private boolean finished;
     private Player currentPlayer;
@@ -21,7 +21,7 @@ public class Game {
 
     }
 
-    public ArrayList<Hex> getAllHexes(){
+    public ArrayList<HexImpl> getAllHexes(){
         return allHexes;
     }
 

@@ -1,6 +1,6 @@
 package game.player.ai;
 
-import game.elements.Hex;
+import game.elements.HexImpl;
 import game.elements.HexValue;
 
 import java.util.Set;
@@ -19,23 +19,23 @@ class CheatingAiPlayer extends AbstractPlayer {
     }
 
     @Override
-    public Hex move(Set<Hex> currentState) {
+    public HexImpl move(Set<HexImpl> currentState) {
         //can I change to state of the Hexes to ensure I win?
         LOG.info("THERE'S A KILL SCREEN COMING UP!");
         setAllHexMyColour(currentState);
         return getMove(currentState);
     }
 
-    private Hex getMove(Set<Hex> currentState) {
+    private HexImpl getMove(Set<HexImpl> currentState) {
         //now make one of them not so I can make a legal move (in-case the game checks for illegal moves before a winning move)
-        Hex firstHex = currentState.iterator().next();
+        HexImpl firstHex = currentState.iterator().next();
         firstHex.setHexValue(HexValue.EMPTY);
         return firstHex;
     }
 
-    private void setAllHexMyColour(Set<Hex> currentState) {
+    private void setAllHexMyColour(Set<HexImpl> currentState) {
         //make them all my colour!
-        for (Hex hex : currentState){
+        for (HexImpl hex : currentState){
             hex.setHexValue(playerColour);
         }
     }

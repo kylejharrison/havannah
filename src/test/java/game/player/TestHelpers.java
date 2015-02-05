@@ -1,6 +1,8 @@
 package game.player;
 
-import game.elements.Hex;
+import game.elements.Corner;
+import game.elements.Edge;
+import game.elements.HexImpl;
 import game.elements.HexValue;
 
 import java.util.HashSet;
@@ -11,18 +13,18 @@ import java.util.Set;
  * helper methods for tests
  */
 public class TestHelpers {
-    public static Set<Hex> getHexCollection(int numberOfBlue, int numberOfRed, int numberOfEmpty) {
-        Set<Hex> hexes = new HashSet<Hex>();
+    public static Set<HexImpl> getHexCollection(int numberOfBlue, int numberOfRed, int numberOfEmpty) {
+        Set<HexImpl> hexes = new HashSet<HexImpl>();
         hexes.addAll(getHexCollectionForValue(HexValue.BLUE, numberOfBlue + hexes.size(), hexes.size()));
         hexes.addAll(getHexCollectionForValue(HexValue.RED, numberOfRed + hexes.size(), hexes.size()));
         hexes.addAll(getHexCollectionForValue(HexValue.EMPTY, numberOfEmpty + hexes.size(), hexes.size()));
         return hexes;
     }
 
-    private static Set<Hex> getHexCollectionForValue(HexValue value, int number, int startNumber) {
-        Set<Hex> hexes = new HashSet<Hex>();
+    private static Set<HexImpl> getHexCollectionForValue(HexValue value, int number, int startNumber) {
+        Set<HexImpl> hexes = new HashSet<HexImpl>();
         for (int i = startNumber; i < number; i++) {
-            Hex e = new Hex(0, i);
+            HexImpl e = new HexImpl(0, i, Edge.NOTANEDGE, Corner.NOTACORNER);
             e.setHexValue(value);
             hexes.add(e);
         }
