@@ -1,7 +1,6 @@
 package game.player.ai;
 
 import game.elements.Hex;
-import game.elements.HexImpl;
 import game.elements.HexValue;
 
 import java.util.HashMap;
@@ -24,9 +23,9 @@ class CrowdingAiPlayer extends AbstractPlayer {
     }
 
     @Override
-    public HexImpl move(Set<HexImpl> currentState) {
+    public Hex move(Set<Hex> currentState) {
         Hex lastMove = getLastMove(currentState);
-        HexImpl hex = firstAdjacentHex(currentState, lastMove);
+        Hex hex = firstAdjacentHex(currentState, lastMove);
         if (hex != null){
             opponentsState.put(lastMove, lastMove);
             return hex;
@@ -35,18 +34,18 @@ class CrowdingAiPlayer extends AbstractPlayer {
         }
     }
 
-    private HexImpl firstAdjacentHex(Set<HexImpl> currentState, Hex lastMove) {
+    private Hex firstAdjacentHex(Set<Hex> currentState, Hex lastMove) {
         if (lastMove != null){
             for (Hex current : currentState){
                 if (HexValue.EMPTY.equals(current.getHexValue()) && current.isNextTo(lastMove)){
-                    return (HexImpl) current;
+                    return current;
                 }
             }
         }
         return null;
     }
 
-    private Hex getLastMove(Set<HexImpl> currentState) {
+    private Hex getLastMove(Set<Hex> currentState) {
         for (Hex current : currentState){
             if (!HexValue.EMPTY.equals(current.getHexValue()) && !playerColour.equals(current.getHexValue())){
                 //an opponents move
