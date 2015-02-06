@@ -1,11 +1,11 @@
-package ui;
+package game.ui;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by kyle on 1/18/15.
- * ui.Title panel for game.elements.MainMenu
+ * game.ui.Title panel for game.elements.MainMenu
  */
 public class Title extends JLabel{
 

@@ -1,6 +1,6 @@
 package game.elements;
 
-import ui.HexButton;
+import game.ui.HexButton;
 
 /**
  * Created by kyle on 1/18/15.

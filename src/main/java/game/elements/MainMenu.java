@@ -3,8 +3,7 @@ package game.elements; /**
  * Main Menu - main class for game
  */
 
-import game.controls.GameRunner;
-import ui.Title;
+import game.ui.Title;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,15 +56,15 @@ public class MainMenu extends JPanel{
 
     private static void addNewGameButton(JFrame frame){
         //Add a button to start new game.elements.Game
-        ui.Button newGame = new ui.Button("Start New Game");
+        game.ui.Button newGame = new game.ui.Button("Start New Game");
         newGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // static defaults for now
                 int boardSize = 8;
                 //Hands off the running of the game to the game.controls.GameRunner
-                GameRunner gameRunner = new GameRunner(boardSize);
-                gameRunner.run();
+                Game game = new Game(boardSize);
+                game.run();
             }
         });
         frame.add(newGame);

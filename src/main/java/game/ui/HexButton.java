@@ -1,4 +1,4 @@
-package ui;
+package game.ui;
 
 import game.elements.PathHelper;
 

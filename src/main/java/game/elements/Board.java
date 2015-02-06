@@ -1,6 +1,6 @@
 package game.elements;
 
-import ui.HexButton;
+import game.ui.HexButton;
 
 import javax.swing.*;
 import java.awt.*;
