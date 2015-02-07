@@ -1,7 +1,10 @@
 package game;
 
 import game.elements.Board;
+import game.elements.HexImpl;
 import game.ui.GameWindow;
+
+import java.util.Set;
 
 /**
  * Created by kyle on 1/18/15.
@@ -9,14 +12,22 @@ import game.ui.GameWindow;
  */
 public class Game {
     private int boardSize;
+    private Set<HexImpl> gameState;
 
     public Game(int boardSize) {
         this.boardSize = boardSize;
+        setGameState();
+    }
+
+    private void setGameState(){
+        HexGenerator hexGenerator = new HexGenerator(boardSize);
+        this.gameState = hexGenerator.generateHexes();
     }
 
     public void run() {
         createGameWindow();
     }
+
 
     private void createGameWindow(){
         GameWindow gameWindow = new GameWindow();
@@ -25,7 +36,7 @@ public class Game {
 
     }
     private void addBoard(GameWindow gameWindow){
-        Board board = new Board(boardSize);
+        Board board = new Board(boardSize, gameState);
         gameWindow.addGameElement(board);
     }
 

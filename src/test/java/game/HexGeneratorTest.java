@@ -1,5 +1,7 @@
-package game.elements;
+package game;
 
+import game.elements.Hex;
+import game.elements.HexImpl;
 import org.testng.annotations.Test;
 
 import java.util.Set;
@@ -7,23 +9,23 @@ import java.util.Set;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class BoardTest {
+public class HexGeneratorTest {
 
     @Test
     public void testHexCollectionContainsCorrectNumberOfHexes() throws Exception {
-        for (int i = 2; i < 50; i++) {
-            Board testBoard = new Board(i);
-            Set<HexImpl> hexList = testBoard.getAllHexes();
-            assertEquals(hexList.size(), (int)((3 * (Math.pow(i,2))) - (3 * i) +1));
+        for (int boardSize = 2; boardSize < 50; boardSize++) {
+            HexGenerator hexGenerator = new HexGenerator(boardSize);
+            Set<HexImpl> hexList = hexGenerator.generateHexes();
+            assertEquals(hexList.size(), (int)((3 * (Math.pow(boardSize,2))) - (3 * boardSize) +1));
         }
     }
 
     @Test
     public void testHexCoordinatesAreNotOutOfRange() throws Exception{
-        for (int boardSize = 2; boardSize < 50; boardSize++) {
-            Board testBoard = new Board(boardSize);
-            Set<HexImpl> hexList = testBoard.getAllHexes();
-            for (HexImpl hex : hexList) {
+        for (int boardSize = 2; boardSize < 20; boardSize++) {
+            HexGenerator hexGenerator = new HexGenerator(boardSize);
+            Set<HexImpl> hexList = hexGenerator.generateHexes();
+            for (Hex hex : hexList) {
                 int xAxis = hex.getXAxis();
                 int yAxis = hex.getYAxis();
                 assertTrue(Math.abs(xAxis) < boardSize, "all x cannot be greater than boardSize");
@@ -35,7 +37,8 @@ public class BoardTest {
                     }
                 } else {
                     if (yAxis >= 0) {
-                        assertTrue(yAxis < boardSize, "Positive Ys cannot be bigger than boardSize when X is negative");
+                        assertTrue(yAxis < boardSize, String.format("Positive Ys cannot be bigger than boardSize " +
+                                "when X is negative. BoardSize = %s. Hex = %s. All Hexes= %s", boardSize, hex.toString(), hexList));
                     } else {
                         assertTrue(yAxis > xAxis - boardSize, "Negative Ys cannot be smaller than X - boardSize when X is negative");
                     }

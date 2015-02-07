@@ -10,7 +10,12 @@ public class HexImpl implements Hex {
     private int xAxis;
     private int yAxis;
     private HexValue hexValue = HexValue.EMPTY;
-    final private HexButton button;
+
+    public void setButton(HexButton button) {
+        this.button = button;
+    }
+
+    private HexButton button;
     final private Edge edge;
     final private Corner corner;
 
