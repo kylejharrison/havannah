@@ -1,5 +1,6 @@
-package game.elements;
+package game;
 
+import game.elements.Board;
 import game.ui.GameWindow;
 
 /**

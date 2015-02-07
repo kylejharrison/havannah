@@ -1,9 +1,9 @@
-package game.elements; /**
+package game.ui; /**
  * Created by kyle on 1/18/15.
  * Main Menu - main class for game
  */
 
-import game.ui.Title;
+import game.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +55,7 @@ public class MainMenu extends JPanel{
     }
 
     private static void addNewGameButton(JFrame frame){
-        //Add a button to start new game.elements.Game
+        //Add a button to start new game.Game
         game.ui.Button newGame = new game.ui.Button("Start New Game");
         newGame.addActionListener(new ActionListener() {
             @Override
