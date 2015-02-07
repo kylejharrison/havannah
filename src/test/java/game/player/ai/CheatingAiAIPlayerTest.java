@@ -9,13 +9,13 @@ import java.util.Set;
 
 import static game.player.TestHelpers.getHexCollection;
 
-public class CheatingAiPlayerTest {
+public class CheatingAiAIPlayerTest {
 
     @Test
     public void testMoveWithOneHexWins() throws Exception {
         HexValue cheatingPlayerColour = HexValue.BLUE;
         Hex
-                move = new CheatingAiPlayer(cheatingPlayerColour).move(getHexCollection(0, 0, 1));
+                move = new CheatingAiAIPlayer(cheatingPlayerColour).move(getHexCollection(0, 0, 1));
         Assert.assertEquals(move.getHexValue(), HexValue.EMPTY);
     }
 
@@ -23,18 +23,18 @@ public class CheatingAiPlayerTest {
     public void testMoveWithThreeOfEachHexWins() throws Exception {
         HexValue cheatingPlayerColour = HexValue.RED;
         Set<Hex> gameState = getHexCollection(3, 3, 3);
-        Hex move = new CheatingAiPlayer(cheatingPlayerColour).move(gameState);
+        Hex move = new CheatingAiAIPlayer(cheatingPlayerColour).move(gameState);
         assertAllButOneIsColour(cheatingPlayerColour, gameState);
-        Assert.assertTrue(AbstractPlayer.isValidMove(move));
+        Assert.assertTrue(AbstractAIPlayer.isValidMove(move));
     }
 
     @Test
     public void testMoveWithLoadsOfEmptyHexWins() throws Exception {
         HexValue cheatingPlayerColour = HexValue.RED;
         Set<Hex> gameState = getHexCollection(1, 1, 39);
-        Hex move = new CheatingAiPlayer(cheatingPlayerColour).move(gameState);
+        Hex move = new CheatingAiAIPlayer(cheatingPlayerColour).move(gameState);
         assertAllButOneIsColour(cheatingPlayerColour, gameState);
-        Assert.assertTrue(AbstractPlayer.isValidMove(move));
+        Assert.assertTrue(AbstractAIPlayer.isValidMove(move));
     }
 
     private void assertAllButOneIsColour(HexValue cheatingPlayerColour, Set<Hex> gameState) {

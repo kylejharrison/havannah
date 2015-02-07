@@ -12,11 +12,11 @@ import java.util.logging.Logger;
  * See if we can manipulate the game state that we receive to win the game instantly.
  * Created by steve on 29/01/15.
  */
-class CheatingAiPlayer extends AbstractPlayer {
+class CheatingAiAIPlayer extends AbstractAIPlayer {
 
-    private static final Logger LOG = Logger.getLogger(CheatingAiPlayer.class.getName());
+    private static final Logger LOG = Logger.getLogger(CheatingAiAIPlayer.class.getName());
 
-    public CheatingAiPlayer(HexValue playerColour) {
+    public CheatingAiAIPlayer(HexValue playerColour) {
         super(playerColour);
     }
 
@@ -50,4 +50,5 @@ class CheatingAiPlayer extends AbstractPlayer {
         currentState.addAll(newCurrentState);
         LOG.info("It's all happening.");
     }
+
 }

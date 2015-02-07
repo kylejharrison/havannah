@@ -10,16 +10,16 @@ import java.util.Set;
 
 import static game.player.TestHelpers.getHexCollection;
 
-public class RandomAiPlayerTest {
+public class RandomAiAIPlayerTest {
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testCreationThrowsExceptionOnBadColour() throws Exception {
-        new RandomAiPlayer(HexValue.EMPTY);
+        new RandomAiAIPlayer(HexValue.EMPTY);
     }
 
     @Test
     public void testWithOneHex() throws Exception {
-        RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
+        RandomAiAIPlayer randomAiPlayer = new RandomAiAIPlayer(HexValue.BLUE);
         Hex onlyEmptyOne = new HexImpl(0, 0, Edge.NOTANEDGE, Corner.NOTACORNER);
         Hex move = randomAiPlayer.move(Collections.singleton(onlyEmptyOne));
         Assert.assertEquals(move, onlyEmptyOne);
@@ -27,7 +27,7 @@ public class RandomAiPlayerTest {
 
     @Test
     public void testWithManyHexOnlyOne() throws Exception {
-        RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
+        RandomAiAIPlayer randomAiPlayer = new RandomAiAIPlayer(HexValue.BLUE);
         Set<Hex> currentState = getHexCollection(3,4,0);
         Hex onlyEmpty = new HexImpl(-1,-1, Edge.NOTANEDGE, Corner.NOTACORNER);
         currentState.add(onlyEmpty);
@@ -37,7 +37,7 @@ public class RandomAiPlayerTest {
 
     @Test
     public void testWithManyHexMultipleChoices() throws Exception{
-        RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
+        RandomAiAIPlayer randomAiPlayer = new RandomAiAIPlayer(HexValue.BLUE);
         Set<Hex> currentState = getHexCollection(10,10,0);
         Set<Hex> multipleChoice = new HashSet<Hex>();
         for (int i = -1; i > -10 ; i--) {

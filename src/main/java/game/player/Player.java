@@ -1,20 +1,21 @@
 package game.player;
 
-import game.elements.Hex;
-
-import java.util.Set;
+import game.elements.HexValue;
 
 /**
- * The contract of what a player (ai) needs to do to play the game.
- * Created by steve on 29/01/15.
+ * Contract of what each player needs to have (AI and Human)
+ * Created by kyle on 2/7/15.
  */
 public interface Player {
+    /**
+     * Each Player can be either Human or AI
+     * @return true if the Player is a human player, false if AI
+     */
+    boolean isHuman();
 
     /**
-     * The move to be made by the player.
-     * @param currentState current state of the board
-     * @return the single Hex that the player wants to play.
+     * Each player is designated a HexValue colour
+     * @return the HexValue of the player
      */
-    Hex move(Set<Hex> currentState);
-
+    HexValue getPlayerColour();
 }

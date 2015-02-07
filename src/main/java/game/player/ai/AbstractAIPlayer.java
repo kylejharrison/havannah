@@ -2,17 +2,17 @@ package game.player.ai;
 
 import game.elements.Hex;
 import game.elements.HexValue;
-import game.player.Player;
+import game.player.AIPlayer;
 
 /**
  * An AbstractPLayer to share common values and methods.
  * Created by steve on 29/01/15.
  */
-abstract class AbstractPlayer implements Player {
+abstract class AbstractAIPlayer implements AIPlayer {
 
     final HexValue playerColour;
 
-    AbstractPlayer(HexValue playerColour) {
+    AbstractAIPlayer(HexValue playerColour) {
         validatePlayerColour(playerColour);
         this.playerColour = playerColour;
     }
@@ -25,5 +25,15 @@ abstract class AbstractPlayer implements Player {
 
     static boolean isValidMove(Hex move){
         return HexValue.EMPTY.equals(move.getHexValue());
+    }
+
+    @Override
+    public boolean isHuman() {
+        return false;
+    }
+
+    @Override
+    public HexValue getPlayerColour() {
+        return playerColour;
     }
 }

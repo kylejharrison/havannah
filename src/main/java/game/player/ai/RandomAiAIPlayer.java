@@ -10,9 +10,9 @@ import java.util.Set;
  * Randomly choose a move that is valid.
  * Created by steve on 29/01/15.
  */
-public class RandomAiPlayer extends AbstractPlayer {
+public class RandomAiAIPlayer extends AbstractAIPlayer {
 
-    public RandomAiPlayer(HexValue playerColour) {
+    public RandomAiAIPlayer(HexValue playerColour) {
         super(playerColour);
     }
 

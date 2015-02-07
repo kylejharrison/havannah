@@ -12,12 +12,12 @@ import java.util.logging.Logger;
  * An AI player that will just try and crowd the other player with no aim of going for a win.
  * Created by steve on 29/01/15.
  */
-class CrowdingAiPlayer extends AbstractPlayer {
+class CrowdingAiAIPlayer extends AbstractAIPlayer {
 
-    private static final Logger LOG = Logger.getLogger(CrowdingAiPlayer.class.getName());
+    private static final Logger LOG = Logger.getLogger(CrowdingAiAIPlayer.class.getName());
     private final Map<Hex, Hex> opponentsState;
 
-    public CrowdingAiPlayer(HexValue playerColour) {
+    public CrowdingAiAIPlayer(HexValue playerColour) {
         super(playerColour);
         opponentsState = new HashMap<Hex, Hex>();
     }
@@ -30,7 +30,7 @@ class CrowdingAiPlayer extends AbstractPlayer {
             opponentsState.put(lastMove, lastMove);
             return hex;
         }else{
-            return RandomAiPlayer.getRandomHex(currentState);
+            return RandomAiAIPlayer.getRandomHex(currentState);
         }
     }
 
