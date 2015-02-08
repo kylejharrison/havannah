@@ -1,9 +1,6 @@
 package game.player.ai;
 
-import game.elements.Corner;
-import game.elements.Edge;
-import game.elements.HexImpl;
-import game.elements.HexValue;
+import game.elements.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -23,32 +20,32 @@ public class RandomAiPlayerTest {
     @Test
     public void testWithOneHex() throws Exception {
         RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
-        HexImpl onlyEmptyOne = new HexImpl(0, 0, Edge.NOTANEDGE, Corner.NOTACORNER);
-        HexImpl move = randomAiPlayer.move(Collections.singleton(onlyEmptyOne));
+        Hex onlyEmptyOne = new HexImpl(0, 0, Edge.NOTANEDGE, Corner.NOTACORNER);
+        Hex move = randomAiPlayer.move(Collections.singleton(onlyEmptyOne));
         Assert.assertEquals(move, onlyEmptyOne);
     }
 
     @Test
     public void testWithManyHexOnlyOne() throws Exception {
         RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
-        Set<HexImpl> currentState = getHexCollection(3,4,0);
-        HexImpl onlyEmpty = new HexImpl(-1,-1, Edge.NOTANEDGE, Corner.NOTACORNER);
+        Set<Hex> currentState = getHexCollection(3,4,0);
+        Hex onlyEmpty = new HexImpl(-1,-1, Edge.NOTANEDGE, Corner.NOTACORNER);
         currentState.add(onlyEmpty);
-        HexImpl move = randomAiPlayer.move(currentState);
+        Hex move = randomAiPlayer.move(currentState);
         Assert.assertEquals(move,onlyEmpty);
     }
 
     @Test
     public void testWithManyHexMultipleChoices() throws Exception{
         RandomAiPlayer randomAiPlayer = new RandomAiPlayer(HexValue.BLUE);
-        Set<HexImpl> currentState = getHexCollection(10,10,0);
-        Set<HexImpl> multipleChoice = new HashSet<HexImpl>();
+        Set<Hex> currentState = getHexCollection(10,10,0);
+        Set<Hex> multipleChoice = new HashSet<Hex>();
         for (int i = -1; i > -10 ; i--) {
-            HexImpl empty = new HexImpl(0,i, Edge.NOTANEDGE, Corner.NOTACORNER);
+            Hex empty = new HexImpl(0,i, Edge.NOTANEDGE, Corner.NOTACORNER);
             multipleChoice.add(empty);
         }
         currentState.addAll(multipleChoice);
-        HexImpl move = randomAiPlayer.move(currentState);
+        Hex move = randomAiPlayer.move(currentState);
         Assert.assertTrue(multipleChoice.contains(move));
     }
 }

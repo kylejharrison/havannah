@@ -1,9 +1,6 @@
 package game.player;
 
-import game.elements.Corner;
-import game.elements.Edge;
-import game.elements.HexImpl;
-import game.elements.HexValue;
+import game.elements.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +10,8 @@ import java.util.Set;
  * helper methods for tests
  */
 public class TestHelpers {
-    public static Set<HexImpl> getHexCollection(int numberOfBlue, int numberOfRed, int numberOfEmpty) {
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+    public static Set<Hex> getHexCollection(int numberOfBlue, int numberOfRed, int numberOfEmpty) {
+        Set<Hex> hexes = new HashSet<Hex>();
         hexes.addAll(getHexCollectionForValue(HexValue.BLUE, numberOfBlue + hexes.size(), hexes.size()));
         hexes.addAll(getHexCollectionForValue(HexValue.RED, numberOfRed + hexes.size(), hexes.size()));
         hexes.addAll(getHexCollectionForValue(HexValue.EMPTY, numberOfEmpty + hexes.size(), hexes.size()));

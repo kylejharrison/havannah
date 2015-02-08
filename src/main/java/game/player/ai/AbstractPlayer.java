@@ -1,6 +1,6 @@
 package game.player.ai;
 
-import game.elements.HexImpl;
+import game.elements.Hex;
 import game.elements.HexValue;
 import game.player.Player;
 
@@ -23,7 +23,7 @@ abstract class AbstractPlayer implements Player {
         }
     }
 
-    static boolean isValidMove(HexImpl move){
+    static boolean isValidMove(Hex move){
         return HexValue.EMPTY.equals(move.getHexValue());
     }
 }

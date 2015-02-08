@@ -1,6 +1,6 @@
 package game.player.ai;
 
-import game.elements.HexImpl;
+import game.elements.Hex;
 import game.elements.HexValue;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -14,15 +14,16 @@ public class CheatingAiPlayerTest {
     @Test
     public void testMoveWithOneHexWins() throws Exception {
         HexValue cheatingPlayerColour = HexValue.BLUE;
-        HexImpl move = new CheatingAiPlayer(cheatingPlayerColour).move(getHexCollection(0, 0, 1));
+        Hex
+                move = new CheatingAiPlayer(cheatingPlayerColour).move(getHexCollection(0, 0, 1));
         Assert.assertEquals(move.getHexValue(), HexValue.EMPTY);
     }
 
     @Test
     public void testMoveWithThreeOfEachHexWins() throws Exception {
         HexValue cheatingPlayerColour = HexValue.RED;
-        Set<HexImpl> gameState = getHexCollection(3, 3, 3);
-        HexImpl move = new CheatingAiPlayer(cheatingPlayerColour).move(gameState);
+        Set<Hex> gameState = getHexCollection(3, 3, 3);
+        Hex move = new CheatingAiPlayer(cheatingPlayerColour).move(gameState);
         assertAllButOneIsColour(cheatingPlayerColour, gameState);
         Assert.assertTrue(AbstractPlayer.isValidMove(move));
     }
@@ -30,16 +31,16 @@ public class CheatingAiPlayerTest {
     @Test
     public void testMoveWithLoadsOfEmptyHexWins() throws Exception {
         HexValue cheatingPlayerColour = HexValue.RED;
-        Set<HexImpl> gameState = getHexCollection(1, 1, 39);
-        HexImpl move = new CheatingAiPlayer(cheatingPlayerColour).move(gameState);
+        Set<Hex> gameState = getHexCollection(1, 1, 39);
+        Hex move = new CheatingAiPlayer(cheatingPlayerColour).move(gameState);
         assertAllButOneIsColour(cheatingPlayerColour, gameState);
         Assert.assertTrue(AbstractPlayer.isValidMove(move));
     }
 
-    private void assertAllButOneIsColour(HexValue cheatingPlayerColour, Set<HexImpl> gameState) {
+    private void assertAllButOneIsColour(HexValue cheatingPlayerColour, Set<Hex> gameState) {
         int countColour = 0;
         int countEmpty = 0;
-        for (HexImpl hex : gameState){
+        for (Hex hex : gameState){
             if (hex.getHexValue().equals(cheatingPlayerColour)){
                 countColour++;
             }else if (hex.getHexValue().equals(HexValue.EMPTY)){

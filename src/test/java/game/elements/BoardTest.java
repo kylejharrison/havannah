@@ -11,7 +11,7 @@ public class BoardTest {
 
     @Test
     public void testHexCollectionContainsCorrectNumberOfHexes() throws Exception {
-        for (int i = 2; i < 100; i++) {
+        for (int i = 2; i < 50; i++) {
             Board testBoard = new Board(i);
             Set<HexImpl> hexList = testBoard.getAllHexes();
             assertEquals(hexList.size(), (int)((3 * (Math.pow(i,2))) - (3 * i) +1));
@@ -20,7 +20,7 @@ public class BoardTest {
 
     @Test
     public void testHexCoordinatesAreNotOutOfRange() throws Exception{
-        for (int boardSize = 2; boardSize < 100; boardSize++) {
+        for (int boardSize = 2; boardSize < 50; boardSize++) {
             Board testBoard = new Board(boardSize);
             Set<HexImpl> hexList = testBoard.getAllHexes();
             for (HexImpl hex : hexList) {
