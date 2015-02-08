@@ -34,13 +34,27 @@ public class HexGenerator {
 
     private void generateHexesGoingUpRight(int x){
         for (int y = 0; y < boardSize; y++) {
-            createHex(x, -y);
+            Corner corner = Corner.NOTACORNER;
+            if (x == 0 && y == boardSize -1 ){
+                corner = Corner.TOP;
+            }else if (x == boardSize -1 && y == boardSize - 1){
+                corner = Corner.TOPRIGHT;
+            }else if (x == boardSize -1 && y == 0){
+                corner = Corner.BOTTOMRIGHT;
+            }
+            final HexImpl hex = new HexImpl(x, -y, Edge.NOTANEDGE, corner);
+            allHexes.add(hex);
         }
     }
 
     private void generateHexesGoingDownRight(int x){
         for (int y = 0; y < boardSize -1 -x; y++) {
-            createHex(x, y + 1);
+            Corner corner = Corner.NOTACORNER;
+            if (x == 0 && y == boardSize - 2 ) {
+                corner = Corner.BOTTOM;
+            }
+            final HexImpl hex = new HexImpl(x, y + 1, Edge.NOTANEDGE, corner);
+            allHexes.add(hex);
         }
     }
     private void generateHexesToTheLeft() {
@@ -53,19 +67,25 @@ public class HexGenerator {
 
     private void generateHexesGoingUpLeft(int x){
         for (int y = 0; y < boardSize - 1 - x; y++) {
-            createHex(-x - 1, -y);
+            Corner corner = Corner.NOTACORNER;
+            if (x == boardSize - 2 && y == 0 ){
+                corner = Corner.TOPLEFT;
+            }
+            final HexImpl hex = new HexImpl(-x - 1, -y, Edge.NOTANEDGE, corner);
+            allHexes.add(hex);
         }
     }
 
     private void generateHexesGoingDownLeft(int x){
         for (int y = 0; y < boardSize - 1; y++) {
-            createHex(-x - 1, y + 1);
+            Corner corner = Corner.NOTACORNER;
+            if (x == boardSize - 2 && y == boardSize - 2 ){
+                corner = Corner.BOTTOMLEFT;
+            }
+            final HexImpl hex = new HexImpl(-x - 1, y + 1, Edge.NOTANEDGE, corner);
+            allHexes.add(hex);
         }
     }
 
-    private void createHex(int x, int y){
-        final HexImpl hex = new HexImpl(x, y, Edge.NOTANEDGE, Corner.NOTACORNER); //TODO: make edge and corner work properly
-        allHexes.add(hex);
-    }
 }
 

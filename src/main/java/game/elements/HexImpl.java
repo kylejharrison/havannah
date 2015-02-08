@@ -19,14 +19,12 @@ public class HexImpl implements Hex {
     final private Edge edge;
     final private Corner corner;
 
-    public HexImpl(int xAxis, int yAxis, Edge edge, Corner corner){
-        this(xAxis, yAxis, edge, corner, null);
+    public HexImpl(int xAxis, int yAxis){
+        this(xAxis, yAxis, Edge.NOTANEDGE, Corner.NOTACORNER);
     }
-
-    public HexImpl(int xAxis, int yAxis, Edge edge, Corner corner, HexButton button){
+    public HexImpl(int xAxis, int yAxis, Edge edge, Corner corner){
         this.xAxis = xAxis;
         this.yAxis = yAxis;
-        this.button = button;
         this.edge = edge;
         this.corner = corner;
     }
