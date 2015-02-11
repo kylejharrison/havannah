@@ -2,6 +2,8 @@ package game.player.ai;
 
 import game.elements.Hex;
 import game.elements.HexValue;
+import game.player.AIPlayer;
+import game.player.AbstractPlayer;
 
 import java.util.Random;
 import java.util.Set;
@@ -10,7 +12,7 @@ import java.util.Set;
  * Randomly choose a move that is valid.
  * Created by steve on 29/01/15.
  */
-public class RandomAiAIPlayer extends AbstractAIPlayer {
+public class RandomAiAIPlayer extends AbstractPlayer implements AIPlayer {
 
     public RandomAiAIPlayer(HexValue playerColour) {
         super(playerColour);

@@ -9,6 +9,7 @@ public interface Hex {
 
 
     /**
+     * The hexes are flat topped.
      * The X axis is the vertical column of hexes, where 0 is the middle column, and increases from left to right.
      * therefore the range will be 1 - boardSize on the left edge to boardSize -1 on the right edge.
      * @return the X Axis value of the Hex.
@@ -17,7 +18,7 @@ public interface Hex {
 
 
     /**
-     * As the Board is hexagon shaped, the y Axis is the diagonal from the top left corner to the bottom right corner.
+     * As the Board is hexagon shaped (flat topped), the y Axis is the diagonal from the top left corner to the bottom right corner.
      * The values increase going downwards and decrease going upwards (obviously).
      * E.g. the top left corner hex is 0 and the bottom left is 0;
      * the top right is 1 - boardSize and bottom left is boardSize -1

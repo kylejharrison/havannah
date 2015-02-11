@@ -4,6 +4,10 @@ package game.ui; /**
  */
 
 import game.Game;
+import game.elements.HexValue;
+import game.player.Player;
+import game.player.ai.CrowdingAiAIPlayer;
+import game.player.ai.RandomAiAIPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,9 +66,16 @@ public class MainMenu extends JPanel{
             public void actionPerformed(ActionEvent actionEvent) {
                 // static defaults for now
                 int boardSize = 8;
+                Player player1 = new RandomAiAIPlayer(HexValue.BLUE);
+                Player player2 = new CrowdingAiAIPlayer(HexValue.RED);
                 //Hands off the running of the game to the game.controls.GameRunner
-                Game game = new Game(boardSize);
-                game.run();
+                Game game = new Game(boardSize, player1, player2);
+                game.launchGameWindow();
+                try {
+                    game.startGameLoop();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         frame.add(newGame);

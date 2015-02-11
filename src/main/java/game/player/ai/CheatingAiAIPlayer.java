@@ -3,6 +3,8 @@ package game.player.ai;
 import game.elements.Hex;
 import game.elements.HexImpl;
 import game.elements.HexValue;
+import game.player.AIPlayer;
+import game.player.AbstractPlayer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +14,7 @@ import java.util.logging.Logger;
  * See if we can manipulate the game state that we receive to win the game instantly.
  * Created by steve on 29/01/15.
  */
-class CheatingAiAIPlayer extends AbstractAIPlayer {
+public class CheatingAiAIPlayer extends AbstractPlayer implements AIPlayer {
 
     private static final Logger LOG = Logger.getLogger(CheatingAiAIPlayer.class.getName());
 

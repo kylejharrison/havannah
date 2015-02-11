@@ -1,5 +1,8 @@
 package game.elements;
 
+import game.CheckGameStateImpl;
+import game.Game;
+import game.player.AbstractPlayer;
 import game.ui.HexButton;
 
 import javax.swing.*;
@@ -7,22 +10,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Created by kyle on 1/18/15.
  * Will draw and update the game board panel
  */
 public class Board extends JPanel{
+    private static final Logger LOG = Logger.getLogger(Board.class.getName());
     public static Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardSize)
     public static Double hexHeight = (double) Math.round(Math.sin(Math.toRadians(60.0)) * hexWidth);
     private Insets insets = getInsets(); //TODO: does this even do anything?
     private int boardWidth;
     private int boardHeight;
     private Dimension tileSize = new Dimension((int) (1 * hexWidth) + 1, (int) (hexHeight + 1)); //TODO: make hexHeight round properly
+    private Game game;
 
-    public Board (int boardSize, Set<HexImpl> allHexes){
+    public Board(int boardSize, Set<HexImpl> allHexes, Game game){
         this.boardWidth = (int) ((boardSize * 2 * hexWidth) + insets.top + insets.bottom);
         this.boardHeight = (int) ((boardSize * 2 * hexHeight) + insets.top + insets.bottom);
+        this.game = game;
         createCanvas();
         drawPlayingBoardWithHexes(allHexes);
     }
@@ -41,11 +48,21 @@ public class Board extends JPanel{
         tile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //TODO: if get current player is human + is valid move, set hex value
-                System.out.println(hexForTile.hashCode());
-                hexForTile.setHexValue(HexValue.BLUE);//Example of setting color
+                LOG.info(String.format("Ooh, you touched me! Hex:%s", hexForTile.toString()));
+                hexIsTouched(hexForTile);
             }
         });
+    }
+    private void hexIsTouched(HexImpl hex){
+        if(AbstractPlayer.isValidMove(hex)){
+            HexValue currentPlayerHexValue = game.getCurrentPlayer().getPlayerHexValue();
+            Set<Hex> currentGameHexes = game.getClonedGameHexes();
+            hex.setHexValue(currentPlayerHexValue);
+            game.setGameState(new CheckGameStateImpl().getGameState(currentGameHexes, hex, currentPlayerHexValue));
+            game.switchCurrentPlayer();
+        }else{
+            LOG.info("Not a valid move, stop touching me!");
+        }
     }
     private void drawPlayingBoardWithHexes(Set<HexImpl> allHexes){
         final int centreOfBoardHorizontally = (int) (insets.left + (boardWidth / 2) - hexWidth / 2);

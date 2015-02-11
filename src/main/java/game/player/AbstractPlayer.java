@@ -1,29 +1,28 @@
-package game.player.ai;
+package game.player;
 
 import game.elements.Hex;
 import game.elements.HexValue;
-import game.player.AIPlayer;
 
 /**
  * An AbstractPLayer to share common values and methods.
  * Created by steve on 29/01/15.
  */
-abstract class AbstractAIPlayer implements AIPlayer {
+public abstract class AbstractPlayer implements Player {
 
-    final HexValue playerColour;
+    protected final HexValue playerColour;
 
-    AbstractAIPlayer(HexValue playerColour) {
+    protected AbstractPlayer(HexValue playerColour) {
         validatePlayerColour(playerColour);
         this.playerColour = playerColour;
     }
 
-    private void validatePlayerColour(HexValue playerColour) {
+    public static void validatePlayerColour(HexValue playerColour) {
         if (!playerColour.isValidForPlayer()){
             throw new RuntimeException("FUCK OFF, that not a valid colour for a player you twat!");
         }
     }
 
-    static boolean isValidMove(Hex move){
+    public static boolean isValidMove(Hex move){
         return HexValue.EMPTY.equals(move.getHexValue());
     }
 
@@ -33,7 +32,7 @@ abstract class AbstractAIPlayer implements AIPlayer {
     }
 
     @Override
-    public HexValue getPlayerColour() {
+    public HexValue getPlayerHexValue() {
         return playerColour;
     }
 }

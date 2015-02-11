@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static game.player.TestHelpers.getHexCollection;
+import static game.TestHelpers.getHexCollection;
 
 public class RandomAiAIPlayerTest {
 

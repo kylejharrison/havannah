@@ -2,6 +2,8 @@ package game.player.ai;
 
 import game.elements.Hex;
 import game.elements.HexValue;
+import game.player.AIPlayer;
+import game.player.AbstractPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,7 @@ import java.util.logging.Logger;
  * An AI player that will just try and crowd the other player with no aim of going for a win.
  * Created by steve on 29/01/15.
  */
-class CrowdingAiAIPlayer extends AbstractAIPlayer {
+public class CrowdingAiAIPlayer extends AbstractPlayer implements AIPlayer {
 
     private static final Logger LOG = Logger.getLogger(CrowdingAiAIPlayer.class.getName());
     private final Map<Hex, Hex> opponentsState;
@@ -30,7 +32,11 @@ class CrowdingAiAIPlayer extends AbstractAIPlayer {
             opponentsState.put(lastMove, lastMove);
             return hex;
         }else{
-            return RandomAiAIPlayer.getRandomHex(currentState);
+            Hex move = RandomAiAIPlayer.getRandomHex(currentState);
+            while(!isValidMove(move)) {
+                move = RandomAiAIPlayer.getRandomHex(currentState);
+            }
+            return move;
         }
     }
 

@@ -7,6 +7,7 @@ import game.elements.HexValue;
  * Created by kyle on 2/7/15.
  */
 public interface Player {
+
     /**
      * Each Player can be either Human or AI
      * @return true if the Player is a human player, false if AI
@@ -17,5 +18,5 @@ public interface Player {
      * Each player is designated a HexValue colour
      * @return the HexValue of the player
      */
-    HexValue getPlayerColour();
+    HexValue getPlayerHexValue();
 }

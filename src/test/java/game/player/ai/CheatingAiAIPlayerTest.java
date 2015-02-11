@@ -2,12 +2,13 @@ package game.player.ai;
 
 import game.elements.Hex;
 import game.elements.HexValue;
+import game.player.AbstractPlayer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Set;
 
-import static game.player.TestHelpers.getHexCollection;
+import static game.TestHelpers.getHexCollection;
 
 public class CheatingAiAIPlayerTest {
 
@@ -25,7 +26,7 @@ public class CheatingAiAIPlayerTest {
         Set<Hex> gameState = getHexCollection(3, 3, 3);
         Hex move = new CheatingAiAIPlayer(cheatingPlayerColour).move(gameState);
         assertAllButOneIsColour(cheatingPlayerColour, gameState);
-        Assert.assertTrue(AbstractAIPlayer.isValidMove(move));
+        Assert.assertTrue(AbstractPlayer.isValidMove(move));
     }
 
     @Test
@@ -34,7 +35,7 @@ public class CheatingAiAIPlayerTest {
         Set<Hex> gameState = getHexCollection(1, 1, 39);
         Hex move = new CheatingAiAIPlayer(cheatingPlayerColour).move(gameState);
         assertAllButOneIsColour(cheatingPlayerColour, gameState);
-        Assert.assertTrue(AbstractAIPlayer.isValidMove(move));
+        Assert.assertTrue(AbstractPlayer.isValidMove(move));
     }
 
     private void assertAllButOneIsColour(HexValue cheatingPlayerColour, Set<Hex> gameState) {
