@@ -43,7 +43,9 @@ public class Game {
     public Set<Hex> getClonedGameHexes(){
         Set<Hex> clonedGameHexes = new HashSet<Hex>();
         for (Hex hex: gameHexes){
-            clonedGameHexes.add(hex);
+            HexImpl newHex = new HexImpl(hex.getXAxis(),hex.getYAxis(),hex.getEdge(),hex.getCorner());
+            newHex.setHexValue(hex.getHexValue());
+            clonedGameHexes.add(newHex);
         }
         return clonedGameHexes;
     }
@@ -75,64 +77,78 @@ public class Game {
      }
 
     public void startGameLoop() throws InterruptedException {
-        currentPlayer = chooseFirstPlayer((ArrayList<Player>) allPlayers);
-        LOG.info(String.format("Starting Player is: %s",currentPlayer.getPlayerHexValue()));
-        LOG.info("Starting Game! It's all happening.");
-        while(!gameState.isGameOver()){
-            if (currentPlayer.isHuman()){
-                doHuman();
-            }else{
-                doAI();
+        Thread gameLoop = new Thread(new GameLoop());
+        gameLoop.start();
+    }
+
+    private class GameLoop implements Runnable {
+
+        @Override
+        public void run() {
+            currentPlayer = chooseFirstPlayer((ArrayList<Player>) allPlayers);
+            LOG.info(String.format("Starting Player is: %s", currentPlayer.getPlayerHexValue()));
+            LOG.info("Starting Game! It's all happening.");
+            while (!gameState.isGameOver()) {
+                if (currentPlayer.isHuman()) {
+                    doHuman();
+                } else {
+                    doAI();
+                }
+            }
+            LOG.info("Game Over");
+        }
+
+
+        private void doHuman() {
+            LOG.info(String.format("Human turn. Player: %s", currentPlayer.getPlayerHexValue()));
+            HexValue thisPlayerHexValue = currentPlayer.getPlayerHexValue();
+            while (currentPlayer.getPlayerHexValue() == thisPlayerHexValue) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        LOG.info("Game Over");
-    }
 
-    private void doHuman() throws InterruptedException {
-        LOG.info(String.format("Human turn. Player: %s",currentPlayer.getPlayerHexValue()));
-        HexValue thisPlayerHexValue = currentPlayer.getPlayerHexValue();
-        while (currentPlayer.getPlayerHexValue() == thisPlayerHexValue){
-            Thread.sleep(1000);
-        }
-    }
-
-    private void doAI(){
-        LOG.info(String.format("AI turn. Player: %s",currentPlayer.getPlayerHexValue()));
-        AIPlayer thisPlayer = (AIPlayer) currentPlayer;
-        Hex move = thisPlayer.move(getClonedGameHexes());
-        if(AbstractPlayer.isValidMove(move)){
-            invalidMoves = 0;
-            setGameState(new CheckGameStateImpl().getGameState(getClonedGameHexes(),move,
-                    thisPlayer.getPlayerHexValue()));
+        private void doAI() {
+            LOG.info(String.format("AI turn. Player: %s", currentPlayer.getPlayerHexValue()));
+            AIPlayer thisPlayer = (AIPlayer) currentPlayer;
+            Hex move = thisPlayer.move(getClonedGameHexes());
+            HexImpl gameHex = null;
             for (HexImpl hex: gameHexes){
-                if (hex == move){
-                    hex.setHexValue(currentPlayer.getPlayerHexValue());
+                if (hex.equals(move)){
+                    gameHex = hex;
                     break;
                 }
             }
-            switchCurrentPlayer();
-        }else if(invalidMoves > 5){
-            throw new RuntimeException("AI player is being a dick and returned 5 invalid moves");
-        }else{
-            LOG.info(String.format("Player gave this move: %s, which has this value: %s",move.toString(),move.getHexValue()));
-            invalidMoves++;
+            if (gameHex == null){
+                throw new RuntimeException("Move is not a hex in the game!");
+            }
+            if (AbstractPlayer.isValidMove(gameHex)) {
+                invalidMoves = 0;
+                setGameState(new CheckGameStateImpl().getGameState(getClonedGameHexes(), move,
+                thisPlayer.getPlayerHexValue()));
+                gameHex.setHexValue(currentPlayer.getPlayerHexValue());
+                switchCurrentPlayer();
+            } else if (invalidMoves > 5) {
+                throw new RuntimeException("AI player is being a dick and returned 5 invalid moves");
+            } else {
+                LOG.info(String.format("Player gave this move: %s, which has this value: %s", move.toString(), move.getHexValue()));
+                invalidMoves++;
+            }
+        }
+
+        private Player chooseFirstPlayer(ArrayList<Player> allPlayers) {
+            LOG.info("Choosing First Player");
+            int random = new Random().nextInt(allPlayers.size());
+            return allPlayers.get(random);
         }
     }
-    private Player chooseFirstPlayer(ArrayList<Player> allPlayers){
-        LOG.info("Choosing First Player");
-        int random = new Random().nextInt(allPlayers.size());
-        return allPlayers.get(random);
-    }
-
     private void createGameWindow(){
         GameWindow gameWindow = new GameWindow();
-        addBoard(gameWindow);
+        gameWindow.addGameElement(new Board(boardSize, gameHexes, this));
         gameWindow.showGameFrame();
-    }
-
-    private void addBoard(GameWindow gameWindow){
-        Board board = new Board(boardSize, gameHexes, this);
-        gameWindow.addGameElement(board);
     }
 
 }

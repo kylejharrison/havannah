@@ -50,7 +50,6 @@ public class CheatingAiAIPlayer extends AbstractPlayer implements AIPlayer {
         }
         currentState.removeAll(currentState);
         currentState.addAll(newCurrentState);
-        LOG.info("It's all happening.");
     }
 
 }

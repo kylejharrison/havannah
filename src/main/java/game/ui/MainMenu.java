@@ -5,8 +5,8 @@ package game.ui; /**
 
 import game.Game;
 import game.elements.HexValue;
+import game.player.HumanPlayer;
 import game.player.Player;
-import game.player.ai.CrowdingAiAIPlayer;
 import game.player.ai.RandomAiAIPlayer;
 
 import javax.swing.*;
@@ -67,7 +67,7 @@ public class MainMenu extends JPanel{
                 // static defaults for now
                 int boardSize = 8;
                 Player player1 = new RandomAiAIPlayer(HexValue.BLUE);
-                Player player2 = new CrowdingAiAIPlayer(HexValue.RED);
+                Player player2 = new HumanPlayer(HexValue.RED);
                 //Hands off the running of the game to the game.controls.GameRunner
                 Game game = new Game(boardSize, player1, player2);
                 game.launchGameWindow();
