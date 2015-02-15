@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class TestHelpers {
     public static Set<Hex> getHexCollection(int numberOfBlue, int numberOfRed, int numberOfEmpty) {
-        Set<Hex> hexes = new HashSet<Hex>();
+        Set<Hex> hexes = new HashSet<>();
         hexes.addAll(getHexCollectionForValue(HexValue.BLUE, numberOfBlue + hexes.size(), hexes.size()));
         hexes.addAll(getHexCollectionForValue(HexValue.RED, numberOfRed + hexes.size(), hexes.size()));
         hexes.addAll(getHexCollectionForValue(HexValue.EMPTY, numberOfEmpty + hexes.size(), hexes.size()));
@@ -21,7 +21,7 @@ public class TestHelpers {
     }
 
     private static Set<HexImpl> getHexCollectionForValue(HexValue value, int number, int startNumber) {
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+        Set<HexImpl> hexes = new HashSet<>();
         for (int i = startNumber; i < number; i++) {
             HexImpl e = new HexImpl(0, i, Edge.NOTANEDGE, Corner.NOTACORNER);
             e.setHexValue(value);
@@ -33,7 +33,7 @@ public class TestHelpers {
     public static Map<HexImpl,HexImpl> getHexMap(int boardSize){
         HexGenerator hexGenerator = new HexGenerator(boardSize);
         Set<HexImpl> allHexes = hexGenerator.generateHexes();
-        Map<HexImpl, HexImpl> hexMap = new HashMap<HexImpl, HexImpl>();
+        Map<HexImpl, HexImpl> hexMap = new HashMap<>();
         for (HexImpl hex: allHexes){
             hexMap.put(hex,hex);
         }

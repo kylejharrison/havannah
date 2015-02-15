@@ -7,8 +7,6 @@ import game.ui.HexButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -18,13 +16,13 @@ import java.util.logging.Logger;
  */
 public class Board extends JPanel{
     private static final Logger LOG = Logger.getLogger(Board.class.getName());
-    public static Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardSize)
-    public static Double hexHeight = (double) Math.round(Math.sin(Math.toRadians(60.0)) * hexWidth);
-    private Insets insets = getInsets(); //TODO: does this even do anything?
-    private int boardWidth;
-    private int boardHeight;
-    private Dimension tileSize = new Dimension((int) (1 * hexWidth) + 1, (int) (hexHeight + 1)); //TODO: make hexHeight round properly
-    private Game game;
+    public static final Double hexWidth = 40.0; //TODO: make this optional size (or dynamic based on screen res and boardSize)
+    public static final Double hexHeight = (double) Math.round(Math.sin(Math.toRadians(60.0)) * hexWidth);
+    private final Insets insets = getInsets(); //TODO: does this even do anything?
+    private final int boardWidth;
+    private final int boardHeight;
+    private final Dimension tileSize = new Dimension((int) (1 * hexWidth) + 1, (int) (hexHeight + 1)); //TODO: make hexHeight round properly
+    private final Game game;
 
     public Board(int boardSize, Set<HexImpl> allHexes, Game game){
         this.boardWidth = (int) ((boardSize * 2 * hexWidth) + insets.top + insets.bottom);
@@ -45,12 +43,9 @@ public class Board extends JPanel{
 
     private void addActionListenerToTile(HexButton tile, final HexImpl hexForTile){
         hexForTile.setButton(tile);
-        tile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                LOG.info(String.format("Ooh, you touched me! Hex:%s", hexForTile.toString()));
-                hexIsTouched(hexForTile);
-            }
+        tile.addActionListener(actionEvent -> {
+            LOG.info(String.format("Ooh, you touched me! Hex:%s", hexForTile.toString()));
+            hexIsTouched(hexForTile);
         });
     }
     private void hexIsTouched(HexImpl hex){

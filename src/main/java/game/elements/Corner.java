@@ -13,7 +13,7 @@ public enum Corner {
     TOPLEFT(true),
     NOTACORNER(false);
 
-    private boolean aCorner;
+    private final boolean aCorner;
 
     Corner(boolean aCorner){
         this.aCorner = aCorner;

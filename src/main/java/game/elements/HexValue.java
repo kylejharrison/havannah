@@ -12,8 +12,8 @@ public enum HexValue {
     RED(true, Color.RED),
     EMPTY(false, Color.WHITE);
 
-    private boolean validForPlayer;
-    private Color color;
+    private final boolean validForPlayer;
+    private final Color color;
 
     HexValue(boolean validForPlayer, Color color) {
         this.validForPlayer = validForPlayer;

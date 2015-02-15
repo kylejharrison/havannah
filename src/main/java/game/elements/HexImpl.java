@@ -7,8 +7,8 @@ import game.ui.HexButton;
  * The cell object for the board
  */
 public class HexImpl implements Hex {
-    private int xAxis;
-    private int yAxis;
+    private final int xAxis;
+    private final int yAxis;
     private HexValue hexValue = HexValue.EMPTY;
 
     public void setButton(HexButton button) {

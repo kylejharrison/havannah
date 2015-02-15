@@ -21,7 +21,7 @@ public class CrowdingAiAIPlayer extends AbstractPlayer implements AIPlayer {
 
     public CrowdingAiAIPlayer(HexValue playerColour) {
         super(playerColour);
-        opponentsState = new HashMap<Hex, Hex>();
+        opponentsState = new HashMap<>();
     }
 
     @Override

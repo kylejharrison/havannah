@@ -42,7 +42,7 @@ public class CheatingAiAIPlayer extends AbstractPlayer implements AIPlayer {
 
     private void setAllHexMyColour(Set<Hex> currentState) {
         //make them all my colour!
-        Set<Hex> newCurrentState = new HashSet<Hex>();
+        Set<Hex> newCurrentState = new HashSet<>();
         for (Hex hex : currentState){
             HexImpl myHex = new HexImpl(hex.getXAxis(),hex.getYAxis(),hex.getEdge(),hex.getCorner());
             myHex.setHexValue(playerColour);

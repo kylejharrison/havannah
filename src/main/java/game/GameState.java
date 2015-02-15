@@ -9,7 +9,7 @@ public enum GameState {
     DRAW(true),
     STILLTOPLAYFOR(false);
 
-    private boolean gameOver;
+    private final boolean gameOver;
 
     GameState(boolean gameOver){
         this.gameOver = gameOver;

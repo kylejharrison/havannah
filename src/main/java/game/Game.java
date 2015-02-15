@@ -19,11 +19,11 @@ import java.util.logging.Logger;
 public class Game {
     private static final Logger LOG = Logger.getLogger(Game.class.getName());
 
-    private int boardSize;
+    private final int boardSize;
     private int invalidMoves = 0;
     private Set<HexImpl> gameHexes;
 
-    private List<Player> allPlayers = new ArrayList<Player>();
+    private final List<Player> allPlayers = new ArrayList<>();
     private GameState gameState = GameState.STILLTOPLAYFOR;
     private Player currentPlayer;
 
@@ -41,7 +41,7 @@ public class Game {
     }
 
     public Set<Hex> getClonedGameHexes(){
-        Set<Hex> clonedGameHexes = new HashSet<Hex>();
+        Set<Hex> clonedGameHexes = new HashSet<>();
         for (Hex hex: gameHexes){
             HexImpl newHex = new HexImpl(hex.getXAxis(),hex.getYAxis(),hex.getEdge(),hex.getCorner());
             newHex.setHexValue(hex.getHexValue());

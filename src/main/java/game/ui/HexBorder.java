@@ -12,7 +12,7 @@ import java.awt.geom.Path2D;
  */
 public class HexBorder extends AbstractBorder{
     private final static int MARGIN = 5;
-    private Color color;
+    private final Color color;
     public HexBorder(Color color){
         this.color = color;
     }

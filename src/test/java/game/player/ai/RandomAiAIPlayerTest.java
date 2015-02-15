@@ -39,7 +39,7 @@ public class RandomAiAIPlayerTest {
     public void testWithManyHexMultipleChoices() throws Exception{
         RandomAiAIPlayer randomAiPlayer = new RandomAiAIPlayer(HexValue.BLUE);
         Set<Hex> currentState = getHexCollection(10,10,0);
-        Set<Hex> multipleChoice = new HashSet<Hex>();
+        Set<Hex> multipleChoice = new HashSet<>();
         for (int i = -1; i > -10 ; i--) {
             Hex empty = new HexImpl(0,i, Edge.NOTANEDGE, Corner.NOTACORNER);
             multipleChoice.add(empty);

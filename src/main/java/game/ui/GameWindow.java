@@ -9,7 +9,7 @@ import java.awt.*;
  */
 public class GameWindow extends JPanel {
 
-    private JFrame gameFrame = createGameFrame();
+    private final JFrame gameFrame = createGameFrame();
 
     public GameWindow() {
         addGameTitle();

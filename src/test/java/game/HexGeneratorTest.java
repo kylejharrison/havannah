@@ -84,13 +84,11 @@ public class HexGeneratorTest {
         for (int boardSize = 2; boardSize < 20; boardSize++) {
             HexGenerator hexGenerator = new HexGenerator(boardSize);
             Set<HexImpl> allHexes = hexGenerator.generateHexes();
-            Set<Corner> allCorners = new HashSet<Corner>();
-            for (HexImpl hex: allHexes){
-                if (hex.getCorner().isACorner()){
-                    assertFalse(allCorners.contains(hex.getCorner()));
-                    allCorners.add(hex.getCorner());
-                }
-            }
+            Set<Corner> allCorners = new HashSet<>();
+            allHexes.stream().filter(hex -> hex.getCorner().isACorner()).forEach(hex -> {
+                assertFalse(allCorners.contains(hex.getCorner()));
+                allCorners.add(hex.getCorner());
+            });
         }
     }
 
@@ -139,7 +137,7 @@ public class HexGeneratorTest {
         }
     }
     private Set<HexImpl> getTopRightEdges(int boardSize){
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+        Set<HexImpl> hexes = new HashSet<>();
         for (int x = 1; x < boardSize -1; x++) {
             hexes.add(new HexImpl(x,1 - boardSize));
         }
@@ -153,7 +151,7 @@ public class HexGeneratorTest {
         }
     }
     private Set<HexImpl> getRightEdges(int boardSize){
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+        Set<HexImpl> hexes = new HashSet<>();
         for (int y = 2 - boardSize; y < 0; y++) {
             hexes.add(new HexImpl(boardSize - 1,y));
         }
@@ -167,7 +165,7 @@ public class HexGeneratorTest {
         }
     }
     private Set<HexImpl> getBottomRightEdges(int boardSize){
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+        Set<HexImpl> hexes = new HashSet<>();
         int y = boardSize - 2;
         for (int x = 1; x < boardSize -1; x++) {
             hexes.add(new HexImpl(x,y));
@@ -184,7 +182,7 @@ public class HexGeneratorTest {
         }
     }
     private Set<HexImpl> getBottomLeftEdges(int boardSize){
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+        Set<HexImpl> hexes = new HashSet<>();
         for (int x = 2 - boardSize; x < 0; x++) {
             hexes.add(new HexImpl(x,boardSize -1));
         }
@@ -199,7 +197,7 @@ public class HexGeneratorTest {
         }
     }
     private Set<HexImpl> getLeftEdges(int boardSize){
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+        Set<HexImpl> hexes = new HashSet<>();
         for (int y = 1 ; y < boardSize - 1; y++) {
             hexes.add(new HexImpl(1 - boardSize,y));
         }
@@ -214,7 +212,7 @@ public class HexGeneratorTest {
         }
     }
     private Set<HexImpl> getTopLeftEdges(int boardSize){
-        Set<HexImpl> hexes = new HashSet<HexImpl>();
+        Set<HexImpl> hexes = new HashSet<>();
         int y = -1;
         for (int x = 2 - boardSize ; x < 0; x++) {
             hexes.add(new HexImpl(x,y));

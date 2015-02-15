@@ -5,26 +5,21 @@ package game.ui; /**
 
 import game.Game;
 import game.elements.HexValue;
-import game.player.HumanPlayer;
 import game.player.Player;
 import game.player.ai.RandomAiAIPlayer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainMenu extends JPanel{
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         // Stolen from http://docs.oracle.com/javase/tutorial/displayCode.html?code=http://docs.oracle.com/javase/tutorial/uiswing/examples/components/FrameDemoProject/src/components/FrameDemo.java
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame window = createUI();
-                addElements(window);
-                showUI(window);
-            }
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            JFrame window = createUI();
+            addElements(window);
+            showUI(window);
         });
     }
 
@@ -61,21 +56,18 @@ public class MainMenu extends JPanel{
     private static void addNewGameButton(JFrame frame){
         //Add a button to start new game.Game
         game.ui.Button newGame = new game.ui.Button("Start New Game");
-        newGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                // static defaults for now
-                int boardSize = 3;
-                Player player1 = new RandomAiAIPlayer(HexValue.BLUE);
-                Player player2 = new HumanPlayer(HexValue.RED);
-                //Hands off the running of the game to the game.controls.GameRunner
-                Game game = new Game(boardSize, player1, player2);
-                game.launchGameWindow();
-                try {
-                    game.startGameLoop();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        newGame.addActionListener(actionEvent -> {
+            // static defaults for now
+            int boardSize = 8;
+            Player player1 = new RandomAiAIPlayer(HexValue.BLUE);
+            Player player2 = new RandomAiAIPlayer(HexValue.RED);
+            //Hands off the running of the game to the game.controls.GameRunner
+            Game game = new Game(boardSize, player1, player2);
+            game.launchGameWindow();
+            try {
+                game.startGameLoop();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         });
         frame.add(newGame);

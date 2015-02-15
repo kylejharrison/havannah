@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class HexGenerator {
 
-    private final Set<HexImpl> allHexes = new HashSet<HexImpl>();
+    private final Set<HexImpl> allHexes = new HashSet<>();
     private final int boardSize;
 
     public HexGenerator(int boardSize){

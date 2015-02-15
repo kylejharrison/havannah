@@ -18,14 +18,14 @@ public class GameHelpersTest {
     public void testGetNeighboursReturnsExpectedHexesSimple() throws Exception{
         HexImpl testHex = new HexImpl(0,0);
         testHex.setHexValue(HexValue.BLUE);
-        Set<Hex> neighbourHexes = new HashSet<Hex>();
+        Set<Hex> neighbourHexes = new HashSet<>();
         addHexToSet(neighbourHexes, 0, -1, HexValue.BLUE);
         addHexToSet(neighbourHexes, 1, -1, HexValue.BLUE);
         addHexToSet(neighbourHexes, 1, 0, HexValue.BLUE);
         addHexToSet(neighbourHexes, 0, 1, HexValue.BLUE);
         addHexToSet(neighbourHexes, -1, 1, HexValue.BLUE);
         addHexToSet(neighbourHexes, -1, 0, HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         currentState.addAll(neighbourHexes);
         currentState.add(testHex);
         Map<Hex, Hex> hexMap = getHashMapFromSet(currentState);
@@ -36,11 +36,11 @@ public class GameHelpersTest {
     public void testGetNeighboursReturnsExpectedHexesWithGotchas() throws Exception{
         HexImpl testHex = new HexImpl(0,0);
         testHex.setHexValue(HexValue.BLUE);
-        Set<Hex> neighbourHexes = new HashSet<Hex>();
+        Set<Hex> neighbourHexes = new HashSet<>();
         addHexToSet(neighbourHexes, 0, -1, HexValue.BLUE);
         addHexToSet(neighbourHexes, -1, 1, HexValue.BLUE);
         addHexToSet(neighbourHexes, -1, 0, HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         currentState.addAll(neighbourHexes);
         currentState.add(testHex);
         addHexToSet(currentState, 1, -1, HexValue.RED);
@@ -54,11 +54,11 @@ public class GameHelpersTest {
     public void testGetNeighboursReturnsExpectedHexesWhenOnSide() throws Exception{
         HexImpl testHex = new HexImpl(-1,0);
         testHex.setHexValue(HexValue.BLUE);
-        Set<Hex> neighbourHexes = new HashSet<Hex>();
+        Set<Hex> neighbourHexes = new HashSet<>();
         addHexToSet(neighbourHexes, 0, -1, HexValue.BLUE);
         addHexToSet(neighbourHexes, -1, 1, HexValue.BLUE);
         addHexToSet(neighbourHexes, 0, 0, HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         currentState.addAll(neighbourHexes);
         currentState.add(testHex);
         addHexToSet(currentState, 1, -1, HexValue.RED);
@@ -72,8 +72,8 @@ public class GameHelpersTest {
     public void testGetNeighboursReturnsEmptyWhenNone() throws Exception{
         HexImpl testHex = new HexImpl(0,0);
         testHex.setHexValue(HexValue.BLUE);
-        Set<Hex> neighbourHexes = new HashSet<Hex>();
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> neighbourHexes = new HashSet<>();
+        Set<Hex> currentState = new HashSet<>();
         currentState.add(testHex);
         addHexToSet(currentState, 0, -1, HexValue.RED);
         addHexToSet(currentState, -1, 1, HexValue.RED);
@@ -91,7 +91,7 @@ public class GameHelpersTest {
         testHexFrom.setHexValue(HexValue.BLUE);
         HexImpl testHexTo = new HexImpl(0,2);
         testHexTo.setHexValue(HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         currentState.add(testHexFrom);
         currentState.add(testHexTo);
         addHexToSet(currentState, 0, 1, HexValue.BLUE);
@@ -104,7 +104,7 @@ public class GameHelpersTest {
         testHexFrom.setHexValue(HexValue.BLUE);
         HexImpl testHexTo = new HexImpl(0,-1);
         testHexTo.setHexValue(HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         currentState.add(testHexFrom);
         currentState.add(testHexTo);
         addHexToSet(currentState, 0, 1, HexValue.BLUE);
@@ -121,12 +121,27 @@ public class GameHelpersTest {
         testHexFrom.setHexValue(HexValue.BLUE);
         HexImpl testHexTo = new HexImpl(0,-1);
         testHexTo.setHexValue(HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         addHexToSet(currentState, 0, 1, HexValue.BLUE);
         addHexToSet(currentState,-1,1,HexValue.BLUE);
         addHexToSet(currentState,-1,0,HexValue.RED);
         addHexToSet(currentState,0,0,HexValue.RED);
         addHexToSet(currentState, 1, -1, HexValue.EMPTY);
         assertFalse(hasPathTo(currentState, testHexFrom, testHexTo));
+    }
+
+    @Test
+    public void testAllHexesConnectedToHexReturnsAllHexesWhenAllSameColour() throws Exception{
+        for (int boardSize = 2; boardSize < 20; boardSize++) {
+            Set<HexImpl> gameBoard = new HexGenerator(boardSize).generateHexes();
+            Set<Hex> currentState = new HashSet<>();
+            for(HexImpl hex: gameBoard){
+                hex.setHexValue(HexValue.BLUE);
+                currentState.add(hex);
+            }
+            HexImpl move = new HexImpl(0,0);
+            move.setHexValue(HexValue.BLUE);
+            assertEquals(currentState,allHexesConnectedToHex(currentState,move));
+        }
     }
 }

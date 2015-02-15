@@ -26,7 +26,7 @@ public class CrowdingAiAIPlayerTest {
     @Test
     public void testMovesNextToOpponent() throws Exception {
         CrowdingAiAIPlayer crowdingAiPlayer = new CrowdingAiAIPlayer(HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         Hex expected = new HexImpl(0,0, Edge.NOTANEDGE, Corner.NOTACORNER);
         currentState.add(expected);
         HexImpl opponent = new HexImpl(1,0, Edge.NOTANEDGE, Corner.NOTACORNER);
@@ -42,7 +42,7 @@ public class CrowdingAiAIPlayerTest {
     @Test
     public void testTwosMovesNextToOpponent() throws Exception {
         CrowdingAiAIPlayer crowdingAiPlayer = new CrowdingAiAIPlayer(HexValue.BLUE);
-        Set<Hex> currentState = new HashSet<Hex>();
+        Set<Hex> currentState = new HashSet<>();
         Hex expected = new HexImpl(0,0, Edge.NOTANEDGE, Corner.NOTACORNER);
         currentState.add(expected);
         HexImpl opponent = new HexImpl(1,0, Edge.NOTANEDGE, Corner.NOTACORNER);

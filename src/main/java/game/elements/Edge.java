@@ -14,7 +14,7 @@ public enum Edge {
     TOPLEFT(true),
     NOTANEDGE(false);
 
-    private boolean anEdge;
+    private final boolean anEdge;
 
     Edge(boolean anEdge){
         this.anEdge = anEdge;

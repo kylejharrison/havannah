@@ -15,35 +15,36 @@ import java.util.Set;
  */
 public class GameHelpers {
 
-    public static boolean hasPathTo(Set<Hex> currentState, Hex from, Hex to){
-        Set<Hex> frontier = new HashSet<Hex>();
-        frontier.add(from);
-        Set<Hex> visited = new HashSet<Hex>();
+    public static Set<Hex> allHexesConnectedToHex(Set<Hex> currentState, Hex hex){
+        Set<Hex> frontier = new HashSet<>();
+        frontier.add(hex);
+        Set<Hex> visited = new HashSet<>();
+        visited.add(hex);
         Map<Hex, Hex> currentHexMap = getHashMapFromSet(currentState);
         while (!frontier.isEmpty()){
             Hex currentHex = frontier.iterator().next();
-            for(Hex neighbour: getNeighboursOfSameValue(currentHexMap,currentHex)){
-                if(!visited.contains(neighbour)){
-                    visited.add(neighbour);
-                    frontier.add(neighbour);
-                }
-            }
+            getNeighboursOfSameValue(currentHexMap, currentHex).stream().filter(neighbour -> !visited.contains(neighbour)).forEach(neighbour -> {
+                visited.add(neighbour);
+                frontier.add(neighbour);
+            });
             frontier.remove(currentHex);
-            if(visited.contains(to)){
-                return true;
-            }
         }
-        return false;
+        return visited;
+    }
+
+    public static boolean hasPathTo(Set<Hex> currentState, Hex from, Hex to){
+        Set<Hex> allConnectedTo = allHexesConnectedToHex(currentState, from);
+        return allConnectedTo.contains(to);
     }
     public static Map<Hex, Hex> getHashMapFromSet(Set<Hex> hexSet){
-        Map<Hex, Hex> hashMap = new HashMap<Hex, Hex>();
+        Map<Hex, Hex> hashMap = new HashMap<>();
         for(Hex hex: hexSet){
             hashMap.put(hex,hex);
         }
         return hashMap;
     }
     public static Set<Hex> getNeighboursOfSameValue(Map<Hex,Hex> hexMap, Hex hex){
-        Set<Hex> neighboursOfSameValue = new HashSet<Hex>();
+        Set<Hex> neighboursOfSameValue = new HashSet<>();
         Set<Hex> allPossibleNeighbours = getAllPossibleNeighbours(hex);
         for(Hex possibleHex: allPossibleNeighbours){
             Hex hexFromMap = hexMap.get(possibleHex);
@@ -55,7 +56,7 @@ public class GameHelpers {
         return neighboursOfSameValue;
     }
     private static Set<Hex> getAllPossibleNeighbours(Hex hex){
-        Set<Hex> allPossibleNeighbours = new HashSet<Hex>();
+        Set<Hex> allPossibleNeighbours = new HashSet<>();
         int xAxis = hex.getXAxis();
         int yAxis = hex.getYAxis();
         addHexToSet(allPossibleNeighbours, xAxis, yAxis - 1, HexValue.EMPTY);
