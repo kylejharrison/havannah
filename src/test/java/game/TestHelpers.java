@@ -2,7 +2,9 @@ package game;
 
 import game.elements.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,4 +29,15 @@ public class TestHelpers {
         }
         return hexes;
     }
+
+    public static Map<HexImpl,HexImpl> getHexMap(int boardSize){
+        HexGenerator hexGenerator = new HexGenerator(boardSize);
+        Set<HexImpl> allHexes = hexGenerator.generateHexes();
+        Map<HexImpl, HexImpl> hexMap = new HashMap<HexImpl, HexImpl>();
+        for (HexImpl hex: allHexes){
+            hexMap.put(hex,hex);
+        }
+        return hexMap;
+    }
+
 }

@@ -65,7 +65,7 @@ public class MainMenu extends JPanel{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // static defaults for now
-                int boardSize = 8;
+                int boardSize = 3;
                 Player player1 = new RandomAiAIPlayer(HexValue.BLUE);
                 Player player2 = new HumanPlayer(HexValue.RED);
                 //Hands off the running of the game to the game.controls.GameRunner

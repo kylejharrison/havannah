@@ -6,7 +6,6 @@ import game.elements.Hex;
 import game.elements.HexImpl;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -53,7 +52,7 @@ public class HexGeneratorTest {
     @Test
     public void testHexCornersAreCreatedCorrectly() throws Exception{
         for (int boardSize = 2; boardSize < 20; boardSize++) {
-            Map<HexImpl,HexImpl> hexMap = getHexMap(boardSize);
+            Map<HexImpl,HexImpl> hexMap = TestHelpers.getHexMap(boardSize);
             assertAllCorners(hexMap, boardSize);
             assertRemainingHexesAreNotACorner(hexMap);
         }
@@ -61,7 +60,7 @@ public class HexGeneratorTest {
     @Test
     public void testHexEdgesAreCreatedCorrectly() throws Exception{
         for (int boardSize = 2; boardSize < 20; boardSize++) {
-            Map<HexImpl,HexImpl> hexMap = getHexMap(boardSize);
+            Map<HexImpl,HexImpl> hexMap = TestHelpers.getHexMap(boardSize);
             assertAllEdges(hexMap,boardSize);
             assertRemainingHexesAreNotAnEdge(hexMap);
         }
@@ -266,14 +265,5 @@ public class HexGeneratorTest {
         HexImpl topLeft = new HexImpl(1 - boardSize, 0);
         assertEquals(hexMap.get(topLeft).getCorner(), Corner.TOPLEFT);
         hexMap.remove(topLeft);
-    }
-    private static Map<HexImpl,HexImpl> getHexMap(int boardSize){
-        HexGenerator hexGenerator = new HexGenerator(boardSize);
-        Set<HexImpl> allHexes = hexGenerator.generateHexes();
-        Map<HexImpl, HexImpl> hexMap = new HashMap<HexImpl, HexImpl>();
-        for (HexImpl hex: allHexes){
-            hexMap.put(hex,hex);
-        }
-        return hexMap;
     }
 }
