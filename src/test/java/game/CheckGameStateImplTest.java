@@ -62,11 +62,16 @@ public class CheckGameStateImplTest {
         Set<Hex> currentState = new HashSet<Hex>();
         Hex move = new HexImpl(0,-19);
         for(HexImpl hex: gameBoard){
-            if(!hex.equals(move)){
+            if(!hex.equals(move) && !hex.getEdge().isAnEdge()){
                 hex.setHexValue(HexValue.BLUE);
             }
             currentState.add(hex);
         }
         assertEquals(GameState.WINNER,new CheckGameStateImpl().getGameState(currentState,move,HexValue.BLUE));
     }
+
+//    @Test
+//    public void testCanDetectAnEdgeWinWhenMoveIsNotAnEdge() throws Exception{
+//
+//    }
 }

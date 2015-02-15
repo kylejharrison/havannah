@@ -5,7 +5,9 @@ import game.elements.Hex;
 import game.elements.HexImpl;
 import game.elements.HexValue;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static game.GameHelpers.hasPathTo;
@@ -16,12 +18,7 @@ import static game.GameHelpers.hasPathTo;
  */
 public class CheckGameStateImpl implements CheckGameState {
 
-    private Hex topCorner;
-    private Hex topRightCorner;
-    private Hex bottomRightCorner;
-    private Hex bottomCorner;
-    private Hex bottomLeftCorner;
-    private Hex topLeftCorner;
+    private Map<Corner,Hex> cornerMap = new HashMap<Corner, Hex>();
 
     @Override
     public GameState getGameState(Set<Hex> currentState, Hex move, HexValue hexValue) {
@@ -41,28 +38,7 @@ public class CheckGameStateImpl implements CheckGameState {
     private void setCorners(Set<Hex> currentState){
         for (Hex hex: currentState) {
             if (hex.getCorner().isACorner()) {
-                switch (hex.getCorner()) {
-                    case TOP:
-                        topCorner = hex;
-                        break;
-                    case TOPRIGHT:
-                        topRightCorner = hex;
-                        break;
-                    case BOTTOMRIGHT:
-                        bottomRightCorner = hex;
-                        break;
-                    case BOTTOM:
-                        bottomCorner = hex;
-                        break;
-                    case BOTTOMLEFT:
-                        bottomLeftCorner = hex;
-                        break;
-                    case TOPLEFT:
-                        topLeftCorner = hex;
-                        break;
-                    case NOTACORNER:
-                        break;
-                }
+                cornerMap.put(hex.getCorner(),hex);
             }
         }
     }
@@ -87,52 +63,17 @@ public class CheckGameStateImpl implements CheckGameState {
 
     private boolean isWinByCorner(Set<Hex> currentState, Hex move, HexValue hexValue){
         int cornersConnected = 0;
-        for (Corner corner: Corner.values()){
-            switch(corner){
-                case TOP:
-                    if(topCorner != null && topCorner.getHexValue() == hexValue
-                            && hasPathTo(currentState, move, topCorner)
-                            || move.equals(topCorner)){
-                        cornersConnected++;
-                    }
-                    break;
-                case TOPRIGHT:
-                    if(topRightCorner != null && topRightCorner.getHexValue() == hexValue
-                            && hasPathTo(currentState,move,topRightCorner)
-                            || move.equals(topRightCorner)){
-                        cornersConnected++;
-                    }
-                    break;
-                case BOTTOMRIGHT:
-                    if(bottomRightCorner != null && bottomRightCorner.getHexValue() == hexValue
-                            && hasPathTo(currentState,move,bottomRightCorner)
-                            || move.equals(bottomRightCorner)){
-                        cornersConnected++;
-                    }
-                    break;
-                case BOTTOM:
-                    if(bottomCorner != null && bottomCorner.getHexValue() == hexValue &&
-                            hasPathTo(currentState,move,bottomCorner)
-                            || move.equals(bottomCorner)){
-                        cornersConnected++;
-                    }
-                    break;
-                case BOTTOMLEFT:
-                    if(bottomLeftCorner != null && bottomLeftCorner.getHexValue() == hexValue &&
-                            hasPathTo(currentState,move,bottomCorner)
-                            || move.equals(bottomLeftCorner)){
-                        cornersConnected++;
-                    }
-                    break;
-                case TOPLEFT:
-                    if(topLeftCorner != null && topLeftCorner.getHexValue() == hexValue &&
-                            hasPathTo(currentState,move,topLeftCorner)
-                            || move.equals(topLeftCorner)){
-                        cornersConnected++;
-                    }
-                    break;
-                case NOTACORNER:
-                    break;
+        for (Corner corner: Corner.values()) {
+            Hex cornerHex;
+            if (cornerMap.containsKey(corner)) {
+                cornerHex = cornerMap.get(corner);
+            } else {
+                continue;
+            }
+            if (cornerMap.containsKey(corner) && cornerHex.getHexValue() == hexValue
+                    && hasPathTo(currentState, move, cornerHex)
+                    || move.equals(cornerHex)) {
+                cornersConnected++;
             }
         }
         return cornersConnected >= 2;
