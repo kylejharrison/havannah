@@ -15,6 +15,40 @@ import java.util.Set;
  */
 public class GameHelpers {
 
+    public static Set<Set<Hex>> getAllUnconnectedHexes(Set<Hex> currentState, Hex hex){
+        return getAllUnconnectedHexes(currentState, allHexesConnectedToHex(currentState,hex));
+    }
+
+    public static Set<Hex> cloneHexSetWithOutValues(Set<Hex> hexSet){
+        Set<Hex> newSet = new HashSet<>();
+        for(Hex hex: hexSet){
+            HexImpl newHex = new HexImpl(hex.getXAxis(),hex.getYAxis(),hex.getEdge(),hex.getCorner());
+            newSet.add(newHex);
+        }
+        return newSet;
+    }
+
+    public static Set<Set<Hex>> getAllUnconnectedHexes(Set<Hex> currentState, Set<Hex> allHexesConnectedToHex){
+        Set<Set<Hex>> unconnected = new HashSet<>();
+        Set<Hex> cloneCurrentState = cloneHexSetWithOutValues(currentState);
+        cloneCurrentState.removeAll(allHexesConnectedToHex);
+        while(!cloneCurrentState.isEmpty()){
+            Set<Hex> hexSet = new HashSet<>();
+            Hex aHex = cloneCurrentState.iterator().next();
+            hexSet.addAll(allHexesConnectedToHex(cloneCurrentState,aHex));
+            unconnected.add(hexSet);
+            cloneCurrentState.removeAll(hexSet);
+        }
+        return unconnected;
+    }
+
+    /**
+     * returns a set of all hexes connected to the given hex, including the hex itself
+     * Where connected is next to a hex of the same value or via hexes of the same value
+     * @param currentState the currentstate of the board
+     * @param hex the hex on the board you want to test (not a future move)
+     * @return all hexes currently connected to the hex
+     */
     public static Set<Hex> allHexesConnectedToHex(Set<Hex> currentState, Hex hex){
         Set<Hex> frontier = new HashSet<>();
         frontier.add(hex);

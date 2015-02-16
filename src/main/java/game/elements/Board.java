@@ -49,7 +49,7 @@ public class Board extends JPanel{
         });
     }
     private void hexIsTouched(HexImpl hex){
-        if(AbstractPlayer.isValidMove(hex) && game.getCurrentPlayer().isHuman()){
+        if(AbstractPlayer.isValidMove(hex) && game.getCurrentPlayer().isHuman() && !game.getGameState().isGameOver()){
             HexValue currentPlayerHexValue = game.getCurrentPlayer().getPlayerHexValue();
             Set<Hex> currentGameHexes = game.getClonedGameHexes();
             hex.setHexValue(currentPlayerHexValue);

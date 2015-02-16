@@ -81,6 +81,10 @@ public class Game {
         gameLoop.start();
     }
 
+    public GameState getGameState() {
+        return gameState;
+    }
+
     private class GameLoop implements Runnable {
 
         @Override
@@ -96,6 +100,10 @@ public class Game {
                 }
             }
             LOG.info("Game Over");
+            if(gameState == GameState.WINNER){
+                switchCurrentPlayer();
+                LOG.info(String.format("Player %s won!", currentPlayer.getPlayerHexValue()));
+            }
         }
 
 

@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 import static game.GameHelpers.allHexesConnectedToHex;
+import static game.GameHelpers.getAllUnconnectedHexes;
 
 /**
  * Implementation of GameOver
@@ -16,12 +17,15 @@ import static game.GameHelpers.allHexesConnectedToHex;
  */
 public class CheckGameStateImpl implements CheckGameState {
 
+    private static final Logger LOG = Logger.getLogger(Game.class.getName());
+
     private Map<Corner,Hex> cornerMap = new HashMap<>();
     private Map<Edge,Set<Hex>> edgeMap = new HashMap<>();
     private Set<Hex> allMoveWillBeConnectedTo = new HashSet<>();
     private boolean givenCornerMap = false;
     private boolean givenEdgeMap = false;
     private boolean givenAllMoveWillBeConnectedTo = false;
+
 
     public CheckGameStateImpl(){
         new CheckGameStateImpl(null,null,null);
@@ -58,11 +62,13 @@ public class CheckGameStateImpl implements CheckGameState {
             setEdgeMap(newCurrentState);
         }
         if(!givenAllMoveWillBeConnectedTo){
-            setAllMoveWillBeConnectedTo(newCurrentState,newMove);
+            setAllMoveWillBeConnectedTo(newCurrentState, newMove);
         }
-        if(isWinningMove(newCurrentState, newMove, hexValue)){
+        if(isWinningMove(newCurrentState, hexValue)){
+            LOG.info("It was a win!");
             return GameState.WINNER;
         }else if(areAllHexesFilledAfterMove(newCurrentState)){
+            LOG.info("It was a draw");
             return GameState.DRAW;
         }else{
             return GameState.STILLTOPLAYFOR;
@@ -83,8 +89,8 @@ public class CheckGameStateImpl implements CheckGameState {
         newCurrentState.stream().filter(hex -> hex.getEdge().isAnEdge()).forEach(hex ->
         edgeMap.get(hex.getEdge()).add(hex));
     }
-    private boolean isWinningMove(Set<Hex> newCurrentState, Hex move, HexValue hexValue){
-        return isWinByCorner(hexValue) || isWinByLoop(newCurrentState, move, hexValue)
+    private boolean isWinningMove(Set<Hex> newCurrentState, HexValue hexValue){
+        return isWinByCorner(hexValue) || isWinByLoop(newCurrentState)
                 || isWinByEdge(hexValue);
     }
 
@@ -116,10 +122,21 @@ public class CheckGameStateImpl implements CheckGameState {
                 cornersConnected++;
             }
         }
-        return cornersConnected >= 2;
+        if (cornersConnected >= 2){
+            LOG.info("Corner win");
+            return true;
+        }
+        else return false;
     }
-    private boolean isWinByLoop(Set<Hex> currentState, Hex move, HexValue hexValue){
-
+    private boolean isWinByLoop(Set<Hex> newCurrentState){
+        Set<Set<Hex>> unconnected = getAllUnconnectedHexes(newCurrentState,allMoveWillBeConnectedTo);
+        if (unconnected.isEmpty()) return false;
+        for(Set<Hex> hexSet: unconnected){
+            if(hexSet.stream().noneMatch(hex -> hex.getCorner().isACorner() || hex.getEdge().isAnEdge())){
+                LOG.info("Loop Win");
+                return true;
+            }
+        }
         return false;
     }
     private boolean isWinByEdge(HexValue hexValue){
@@ -136,10 +153,13 @@ public class CheckGameStateImpl implements CheckGameState {
                 edgesConnected++;
             }
         }
-        return edgesConnected >= 3;
+        if (edgesConnected >= 3){
+            LOG.info("Edge Win");
+            return true;
+        }
+        else return false;
     }
-    private boolean areAllHexesFilledAfterMove(Set<Hex> currentState){
-        Set<Hex> allEmpty = currentState.stream().filter(hex -> hex.getHexValue() == HexValue.EMPTY).collect(Collectors.toSet());
-        return allEmpty.size() == 0;
+    private boolean areAllHexesFilledAfterMove(Set<Hex> newCurrentState){
+        return  newCurrentState.stream().allMatch(hex -> hex.getHexValue().isValidForPlayer());
     }
 }

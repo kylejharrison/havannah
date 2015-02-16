@@ -5,6 +5,7 @@ package game.ui; /**
 
 import game.Game;
 import game.elements.HexValue;
+import game.player.HumanPlayer;
 import game.player.Player;
 import game.player.ai.RandomAiAIPlayer;
 
@@ -59,7 +60,7 @@ public class MainMenu extends JPanel{
         newGame.addActionListener(actionEvent -> {
             // static defaults for now
             int boardSize = 8;
-            Player player1 = new RandomAiAIPlayer(HexValue.BLUE);
+            Player player1 = new HumanPlayer(HexValue.BLUE);
             Player player2 = new RandomAiAIPlayer(HexValue.RED);
             //Hands off the running of the game to the game.controls.GameRunner
             Game game = new Game(boardSize, player1, player2);

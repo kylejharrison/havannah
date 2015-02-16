@@ -144,4 +144,49 @@ public class GameHelpersTest {
             assertEquals(currentState,allHexesConnectedToHex(currentState,move));
         }
     }
+
+    @Test
+    public void testGetUnconnected() throws Exception{
+        Set<HexImpl> gameBoard = new HexGenerator(3).generateHexes();
+        Set<Hex> currentState = new HashSet<>();
+        Set<Set<Hex>> unconnected = new HashSet<>();
+        Set<Hex> loop = new HashSet<>();
+        addHexToSet(loop,-1,0,HexValue.BLUE);
+        addHexToSet(loop,0,-1,HexValue.BLUE);
+        addHexToSet(loop,1,-1,HexValue.BLUE);
+        addHexToSet(loop,1,0,HexValue.BLUE);
+        addHexToSet(loop,0,1,HexValue.BLUE);
+        addHexToSet(loop,-1,1,HexValue.BLUE);
+        for(HexImpl hex: gameBoard){
+            if(loop.contains(hex)){
+                hex.setHexValue(HexValue.BLUE);
+            }
+            currentState.add(hex);
+        }
+        HexImpl testHex = new HexImpl(-1,0);
+        testHex.setHexValue(HexValue.BLUE);
+        //unconnected = outer ring + 1 in middle
+        Set<Hex> outerRing = createOuterRing();
+        Set<Hex> middle = new HashSet<>();
+        addHexToSet(middle,0,0,HexValue.EMPTY);
+        unconnected.add(outerRing);
+        unconnected.add(middle);
+        assertEquals(unconnected,GameHelpers.getAllUnconnectedHexes(currentState,testHex));
+    }
+    private Set<Hex> createOuterRing(){
+        Set<Hex> outerRing = new HashSet<>();
+        addHexToSet(outerRing,0,-2,HexValue.EMPTY);
+        addHexToSet(outerRing,1,-2,HexValue.EMPTY);
+        addHexToSet(outerRing,2,-2,HexValue.EMPTY);
+        addHexToSet(outerRing,2,-1,HexValue.EMPTY);
+        addHexToSet(outerRing,2,0,HexValue.EMPTY);
+        addHexToSet(outerRing,1,1,HexValue.EMPTY);
+        addHexToSet(outerRing,0,2,HexValue.EMPTY);
+        addHexToSet(outerRing,-1,2,HexValue.EMPTY);
+        addHexToSet(outerRing,-2,2,HexValue.EMPTY);
+        addHexToSet(outerRing,-2,1,HexValue.EMPTY);
+        addHexToSet(outerRing,-2,0,HexValue.EMPTY);
+        addHexToSet(outerRing,-1,-1,HexValue.EMPTY);
+        return outerRing;
+    }
 }
