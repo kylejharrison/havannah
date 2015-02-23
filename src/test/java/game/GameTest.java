@@ -8,6 +8,7 @@ import game.player.ai.CheatingAiAIPlayer;
 import game.player.ai.RandomAiAIPlayer;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import static junit.framework.Assert.assertTrue;
@@ -19,6 +20,17 @@ public class GameTest {
         Player player1 = new HumanPlayer(HexValue.BLUE);
         Player player2 = new HumanPlayer(HexValue.BLUE);
         new Game(8,player1,player2);
+    }
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testNewGameWithThreePlayersWithSameValuesThrowsException() throws Exception{
+        ArrayList<Player> allPlayers = new ArrayList<>();
+        Player player1 = new HumanPlayer(HexValue.BLUE);
+        Player player2 = new HumanPlayer(HexValue.BLUE);
+        Player player3 = new HumanPlayer(HexValue.RED);
+        allPlayers.add(player1);
+        allPlayers.add(player2);
+        allPlayers.add(player3);
+        new Game(8,allPlayers);
     }
 
     @Test

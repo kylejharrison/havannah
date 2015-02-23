@@ -23,7 +23,7 @@ public class Game {
     private int invalidMoves = 0;
     private Set<HexImpl> gameHexes;
 
-    private final List<Player> allPlayers = new ArrayList<>();
+    private List<Player> allPlayers = new ArrayList<>();
     private GameState gameState = GameState.STILLTOPLAYFOR;
     private Player currentPlayer;
 
@@ -36,6 +36,17 @@ public class Game {
         setGameHexes();
         LOG.info("Game Hexes set");
     }
+
+    public Game(int boardSize, ArrayList<Player> allPlayers) {
+        this.boardSize = boardSize;
+        this.allPlayers = allPlayers;
+        validatePlayers(allPlayers);
+        LOG.info("Setting Game Hexes...");
+        setGameHexes();
+        LOG.info("Game Hexes set");
+
+    }
+
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
@@ -63,7 +74,11 @@ public class Game {
     }
 
     private void validatePlayers(ArrayList<Player> allPlayers){
-        if(allPlayers.get(0).getPlayerHexValue() == allPlayers.get(1).getPlayerHexValue()){
+        Set<HexValue> allHexValues = new HashSet<>();
+        for (Player player: allPlayers){
+            allHexValues.add(player.getPlayerHexValue());
+        }
+        if(allHexValues.size() != allPlayers.size()){
             throw new RuntimeException("You obviously can't play a game with two players using the same colour, you stupid cunt");
         }
     }

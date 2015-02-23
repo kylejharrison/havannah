@@ -10,7 +10,11 @@ public enum HexValue {
 
     BLUE(true, Color.BLUE),
     RED(true, Color.RED),
+    GREEN(true, Color.GREEN),
+    BLACK(true, Color.BLACK),
+    ORANGE(true, Color.ORANGE),
     EMPTY(false, Color.WHITE);
+
 
     private final boolean validForPlayer;
     private final Color color;
