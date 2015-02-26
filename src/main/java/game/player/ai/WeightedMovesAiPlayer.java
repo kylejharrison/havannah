@@ -28,39 +28,41 @@ public class WeightedMovesAiPlayer extends AbstractPlayer implements AIPlayer {
     }
 
     @Override
-    public Hex move(Set<Hex> currentState) {
-        Set<Hex> possibleMoves = currentState.stream().filter(h -> h.getHexValue().equals(HexValue.EMPTY)).collect(Collectors.toSet());
-        Optional<Hex> winningMove = getWinningMove(currentState, possibleMoves);
-        return winningMove.isPresent() ? winningMove.get() : getBestRankedMove(currentState, possibleMoves);
+    public Hex move(Set<Hex> state) {
+        Set<Hex> possibleMoves = state.stream().filter(h -> h.getHexValue().equals(HexValue.EMPTY)).collect(Collectors.toSet());
+        Optional<Hex> winningMove = getWinningMove(state, possibleMoves);
+        return winningMove.isPresent() ? winningMove.get() : getBestRankedMove(state, possibleMoves);
     }
 
-    private Optional<Hex> getWinningMove(Set<Hex> currentState, Set<Hex> possibleMoves) {
-        Optional<Hex> myWinningMove = getMyWinningMove(currentState, possibleMoves);
+    private Optional<Hex> getWinningMove(Set<Hex> state, Set<Hex> possibleMoves) {
+        Optional<Hex> myWinningMove = getMyWinningMove(state, possibleMoves);
         if (myWinningMove.isPresent()) {
             return myWinningMove;
         }
-        Optional<Hex> oppWinningMove = getOppWinningMove(currentState, possibleMoves);
+        Optional<Hex> oppWinningMove = getOppWinningMove(state, possibleMoves);
         if (oppWinningMove.isPresent()) {
             return oppWinningMove;
         }
         return Optional.empty();
     }
 
-    private Optional<Hex> getMyWinningMove(Set<Hex> currentState, Set<Hex> possibleMoves) {
+    private Optional<Hex> getMyWinningMove(Set<Hex> state, Set<Hex> possibleMoves) {
+        Set<Hex> myMoves = state.stream().filter(h -> h.getHexValue().equals(getPlayerHexValue())).collect(Collectors.toSet());
         CheckGameState gameState = new CheckGameStateImpl();
         for (Hex move : possibleMoves) {
-            if (gameState.getGameState(currentState, move, getPlayerHexValue()).isGameOver()) {
+            if (myMoves.stream().filter(h -> h.isNextTo(move)).count() > 0 && gameState.getGameState(state, move, getPlayerHexValue()).isGameOver()) {
                 return Optional.of(move);
             }
         }
         return Optional.empty();
     }
 
-    private Optional<Hex> getOppWinningMove(Set<Hex> currentState, Set<Hex> possibleMoves) {
+    private Optional<Hex> getOppWinningMove(Set<Hex> state, Set<Hex> possibleMoves) {
+        Set<Hex> oppMoves = state.stream().filter(h -> !h.getHexValue().equals(HexValue.EMPTY) && !h.getHexValue().equals(getPlayerHexValue())).collect(Collectors.toSet());
         CheckGameState gameState = new CheckGameStateImpl();
         for (Hex move : possibleMoves) {
             for (HexValue value : HexValue.values()) {
-                if (!value.equals(HexValue.EMPTY) && gameState.getGameState(currentState, move, value).isGameOver()) {
+                if (!value.equals(HexValue.EMPTY) && !value.equals(getPlayerHexValue()) && oppMoves.stream().filter(h -> h.isNextTo(move)).count() > 0 && gameState.getGameState(state, move, value).isGameOver()) {
                     return Optional.of(move);
                 }
             }
@@ -68,12 +70,19 @@ public class WeightedMovesAiPlayer extends AbstractPlayer implements AIPlayer {
         return Optional.empty();
     }
 
-    private Hex getBestRankedMove(Set<Hex> currentState, Set<Hex> possibleMoves) {
+    private Hex getBestRankedMove(Set<Hex> state, Set<Hex> possibleMoves) {
+        TreeMap<Double, Hex> rankedMoves = getRankedMove(state, possibleMoves);
+        //TODO: get get the top 5-10% of moves  (by total weight) and see then evaluate the move after
+        //Double totalWeights = rankedMoves.keySet().stream().reduce(0d, Double::sum);
+        return rankedMoves.lastEntry().getValue();
+    }
+
+    private TreeMap<Double, Hex> getRankedMove(Set<Hex> state, Set<Hex> possibleMoves) {
         TreeMap<Double, Hex> rankedMoves = new TreeMap<>();
         for (Hex move : possibleMoves) {
-            rankedMoves.put(score(move, currentState), move);
+            rankedMoves.put(score(move, state), move);
         }
-        return rankedMoves.lastEntry().getValue();
+        return rankedMoves;
     }
 
     /**
