@@ -11,6 +11,7 @@ import game.ui.GameWindow;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Created by kyle on 1/18/15.
@@ -62,10 +63,20 @@ public class Game {
     }
 
     public void switchCurrentPlayer() {
-        if (allPlayers.get(0) == currentPlayer){
-            currentPlayer = allPlayers.get(1);
-        }else{
+        int current = allPlayers.indexOf(currentPlayer);
+        if (current == allPlayers.size() - 1){
             currentPlayer = allPlayers.get(0);
+        }else{
+            currentPlayer = allPlayers.get(current + 1);
+        }
+    }
+
+    public Player getPreviousPlayer() {
+        int current = allPlayers.indexOf(currentPlayer);
+        if (current == 0){
+            return allPlayers.get(allPlayers.size() - 1);
+        }else{
+            return allPlayers.get(current - 1);
         }
     }
 
@@ -75,11 +86,12 @@ public class Game {
 
     private void validatePlayers(ArrayList<Player> allPlayers){
         Set<HexValue> allHexValues = new HashSet<>();
-        for (Player player: allPlayers){
-            allHexValues.add(player.getPlayerHexValue());
+        if (allPlayers.isEmpty()) {
+            throw new RuntimeException("Need at least 1 Player");
         }
+        allHexValues.addAll(allPlayers.stream().map(Player::getPlayerHexValue).collect(Collectors.toList()));
         if(allHexValues.size() != allPlayers.size()){
-            throw new RuntimeException("You obviously can't play a game with two players using the same colour, you stupid cunt");
+            throw new RuntimeException("You obviously can't play a game with players using the same colour.");
         }
     }
     private void setGameHexes(){
@@ -94,6 +106,10 @@ public class Game {
     public void startGameLoop() throws InterruptedException {
         Thread gameLoop = new Thread(new GameLoop());
         gameLoop.start();
+    }
+
+    public Thread getGameLoop(){
+        return new Thread(new GameLoop());
     }
 
     public GameState getGameState() {
@@ -116,8 +132,8 @@ public class Game {
             }
             LOG.info("Game Over");
             if(gameState == GameState.WINNER){
-                switchCurrentPlayer();
-                LOG.info(String.format("Player %s won!", currentPlayer.getPlayerHexValue()));
+                Player winner = getPreviousPlayer();
+                LOG.info(String.format("Player %s won!", winner.getPlayerHexValue()));
             }
         }
 

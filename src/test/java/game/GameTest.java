@@ -10,10 +10,13 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static junit.framework.Assert.assertTrue;
 
 public class GameTest {
+
+    private static final Logger LOG = Logger.getLogger(GameTest.class.getName());
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testNewGameWithTwoPlayersOfSameValueThrowsException() throws Exception{
@@ -35,29 +38,48 @@ public class GameTest {
 
     @Test
     public void testGameHasEqualAmountOfMovesPlusOneAtEnd()throws Exception{
-        Player player1 = new RandomAiAIPlayer(HexValue.BLUE);
-        Player player2 = new RandomAiAIPlayer(HexValue.RED);
-        assertValueCountsAreWithinOne(player1, player2);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new RandomAiAIPlayer(HexValue.BLUE));
+        players.add(new RandomAiAIPlayer(HexValue.RED));
+        assertValueCountsAreWithinOne(players);
     }
 
-    private void assertValueCountsAreWithinOne(Player player1, Player player2) throws InterruptedException {
+    @Test
+    public void testGameHasEqualAmountOfMovesPlusOneAtEndWith3Players()throws Exception{
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new RandomAiAIPlayer(HexValue.BLUE));
+        players.add(new RandomAiAIPlayer(HexValue.RED));
+        players.add(new RandomAiAIPlayer(HexValue.BLACK));
+        assertValueCountsAreWithinOne(players);
+    }
+
+    private void assertValueCountsAreWithinOne(ArrayList<Player> players) throws InterruptedException {
         for (int boardSize = 2; boardSize < 20; boardSize++) {
-            Game game = new Game(boardSize,player1,player2);
-            game.startGameLoop();
+            Game game = new Game(boardSize,players);
+            Thread gameLoop = game.getGameLoop();
+            gameLoop.start();
+            while (gameLoop.isAlive()){
+                LOG.info("Loop still running");
+                Thread.sleep(100);
+            }
             Set<Hex> finalHexes = game.getClonedGameHexes();
-            int countBlue = countHexValue(finalHexes,HexValue.BLUE);
-            int countRed = countHexValue(finalHexes,HexValue.RED);
-            int difference = Math.abs(countBlue - countRed);
-            assertTrue(difference <= 1);
+            Player player1 = players.get(0);
+            int countPlayer1 = countHexValue(finalHexes, player1.getPlayerHexValue());
+            for (int i = 1; i < players.size(); i++) {
+                int countPlayerI = countHexValue(finalHexes,players.get(i).getPlayerHexValue());
+                int difference = Math.abs(countPlayer1 - countPlayerI);
+                assertTrue(difference <= 1);
+            }
         }
     }
 
     @Test
     public void testCheatingPlayerCannotSetAllHexes()throws Exception{
-        Player player1 = new CheatingAiAIPlayer(HexValue.BLUE);
-        Player player2 = new RandomAiAIPlayer(HexValue.RED);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new CheatingAiAIPlayer(HexValue.BLUE));
+        players.add(new RandomAiAIPlayer(HexValue.RED));
         try {
-            assertValueCountsAreWithinOne(player1, player2);
+            assertValueCountsAreWithinOne(players);
         } catch (Exception e){
             assertTrue(e.getClass() == RuntimeException.class);
         }
