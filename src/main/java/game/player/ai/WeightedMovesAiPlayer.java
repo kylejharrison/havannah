@@ -2,7 +2,6 @@ package game.player.ai;
 
 import game.CheckGameState;
 import game.CheckGameStateImpl;
-import game.GameState;
 import game.elements.Hex;
 import game.elements.HexValue;
 import game.player.AIPlayer;
@@ -18,51 +17,49 @@ import java.util.stream.Collectors;
  */
 public class WeightedMovesAiPlayer extends AbstractPlayer implements AIPlayer {
 
-    private static final double CORNER_WEIGHT = 1.1;
-    private static final double EDGE_WEIGHT = 1.05;
-    public static final double OTHER_PLAYER_WEIGHT = 0.9d;
-    public static final double CONNECTION_WEIGHT = 1.5;
+    private static final double CORNER_WEIGHT = 1.1d;
+    private static final double EDGE_WEIGHT = 1.05d;
+    private static final double OTHER_PLAYER_WEIGHT = 0.9d;
+    private static final double CONNECTION_WEIGHT = 1.5d;
+    private static final double WIN_WEIGHT = 1000d;
 
     public WeightedMovesAiPlayer(HexValue playerColour) {
         super(playerColour);
     }
 
     @Override
-    public Hex move(Set<Hex> currentState) {
-        Set<Hex> possibleMoves = currentState.stream().filter(h -> h.getHexValue().equals(HexValue.EMPTY)).collect(Collectors.toSet());
-        Optional<Hex> winningMove = getWinningMove(currentState, possibleMoves);
-        if (winningMove.isPresent()) {
-            return winningMove.get();
-        }
-        return getBestRankedMove(currentState, possibleMoves);
+    public Hex move(Set<Hex> state) {
+        Set<Hex> possibleMoves = state.stream().filter(h -> h.getHexValue().equals(HexValue.EMPTY)).collect(Collectors.toSet());
+        Optional<Hex> winningMove = getWinningMove(state, possibleMoves);
+        return winningMove.isPresent() ? winningMove.get() : bestRankedMove(state, possibleMoves);
     }
 
-    private Optional<Hex> getWinningMove(Set<Hex> currentState, Set<Hex> possibleMoves) {
-        CheckGameState gameState = new CheckGameStateImpl();
-        Optional<Hex> myWinningMove = getMyWinningMove(currentState, possibleMoves, gameState);
+    private Optional<Hex> getWinningMove(Set<Hex> state, Set<Hex> possibleMoves) {
+        Optional<Hex> myWinningMove = winningMoveForPlayers(state, possibleMoves, Collections.singleton(getPlayerHexValue()));
         if (myWinningMove.isPresent()) {
             return myWinningMove;
         }
-        Optional<Hex> oppWinningMove = getOppWinningMove(currentState, possibleMoves, gameState);
+        Optional<Hex> oppWinningMove = winningMoveForPlayers(state, possibleMoves, opponents());
         if (oppWinningMove.isPresent()) {
             return oppWinningMove;
         }
         return Optional.empty();
     }
 
-    private Optional<Hex> getMyWinningMove(Set<Hex> currentState, Set<Hex> possibleMoves, CheckGameState gameState) {
-        for (Hex move : possibleMoves) {
-            if (gameState.getGameState(currentState, move, getPlayerHexValue()).isGameOver()) {
-                return Optional.of(move);
-            }
-        }
-        return Optional.empty();
+    private Set<HexValue> opponents() {
+        //TODO need to get this from the game loop
+        Set<HexValue> opponents = new HashSet<>(Arrays.asList(HexValue.values()));
+        opponents.remove(getPlayerHexValue());
+        opponents.remove(HexValue.EMPTY);
+        return opponents;
     }
 
-    private Optional<Hex> getOppWinningMove(Set<Hex> currentState, Set<Hex> possibleMoves, CheckGameState gameState) {
+    private static Optional<Hex> winningMoveForPlayers(Set<Hex> state, Set<Hex> possibleMoves, Set<HexValue> players) {
+        Set<Hex> myMoves = state.stream().filter(h -> players.contains(h.getHexValue())).collect(Collectors.toSet());
+        CheckGameState gameState = new CheckGameStateImpl();
         for (Hex move : possibleMoves) {
-            for (HexValue value : HexValue.values()) {
-                if (!value.equals(HexValue.EMPTY) && gameState.getGameState(currentState, move, value).isGameOver()) {
+            for (HexValue value : players) {
+                if (myMoves.stream().filter(h -> h.isNextTo(move)).count() > 0 && gameState.getGameState(state, move, value).isGameOver()) {
                     return Optional.of(move);
                 }
             }
@@ -70,30 +67,46 @@ public class WeightedMovesAiPlayer extends AbstractPlayer implements AIPlayer {
         return Optional.empty();
     }
 
-    private Hex getBestRankedMove(Set<Hex> currentState, Set<Hex> possibleMoves) {
+    private Hex bestRankedMove(Set<Hex> state, Set<Hex> possibleMoves) {
+        TreeMap<Double, Hex> rankedMoves = getRankedMove(state, possibleMoves, getPlayerHexValue());
+        //TODO: get get the top 5-10% of moves  (by total weight) and see then evaluate the move after
+        //Double totalWeights = rankedMoves.keySet().stream().reduce(0d, Double::sum);
+        return rankedMoves.lastEntry().getValue();
+    }
+
+    private static TreeMap<Double, Hex> getRankedMove(Set<Hex> state, Set<Hex> possibleMoves, HexValue player) {
         TreeMap<Double, Hex> rankedMoves = new TreeMap<>();
         for (Hex move : possibleMoves) {
-            rankedMoves.put(score(move, currentState), move);
+            rankedMoves.put(score(move, state, player), move);
         }
-        return rankedMoves.lastEntry().getValue();
+        return rankedMoves;
     }
 
     /**
      * Score the move based on weights.
      *
      * @param move
-     * @param state
+     * @param player
      * @return
      */
-    private double score(Hex move, Set<Hex> state) {
+    private static double score(Hex move, Set<Hex> state, HexValue player) {
         double score = 0d;
         score += weightCheck(move.getCorner().isACorner(), CORNER_WEIGHT);
         score += weightCheck(move.getEdge().isAnEdge(), EDGE_WEIGHT);
-        score += nextToWeights(move, state);
+        score += nextToWeights(move, state, player);
+        score += proceedsWin(move, state, player);
         return score;
     }
 
-    private double nextToWeights(Hex move, Set<Hex> state) {
+    private static double proceedsWin(Hex move, Set<Hex> state, HexValue player) {
+        Set<Hex> set = new HashSet<>(state);
+        set.add(move);
+        Set<Hex> possible = set.stream().filter(h -> h.getHexValue().equals(HexValue.EMPTY) && h.isNextTo(move)).collect(Collectors.toSet());
+        Optional<Hex> winningMove = winningMoveForPlayers(state, possible, Collections.singleton(player));
+        return winningMove.isPresent() ? WIN_WEIGHT : 0d;
+    }
+
+    private static double nextToWeights(Hex move, Set<Hex> state, HexValue player) {
         Map<HexValue, List<Hex>> nextTo = state.stream().filter(h -> !h.getHexValue().equals(HexValue.EMPTY) && h.isNextTo(move))
                 .collect(Collectors.groupingBy(Hex::getHexValue));
         double value = 0d;
@@ -102,12 +115,12 @@ public class WeightedMovesAiPlayer extends AbstractPlayer implements AIPlayer {
                 //this should reduce clumping into a big group
                 value += CONNECTION_WEIGHT / (entry.getValue().stream().filter(h -> h.isNextTo(hex)).count() + 1);
             }
-            value = getPlayerHexValue().equals(entry.getKey()) ? value : value * OTHER_PLAYER_WEIGHT;
+            value = player.equals(entry.getKey()) ? value : value * OTHER_PLAYER_WEIGHT;
         }
         return value;
     }
 
-    private double weightCheck(boolean check, double value) {
+    private static double weightCheck(boolean check, double value) {
         return check ? value : 0d;
     }
 }
