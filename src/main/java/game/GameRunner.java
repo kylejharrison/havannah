@@ -1,46 +1,32 @@
 package game;
 
-import game.player.PlayerType;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static game.player.PlayerType.*;
+import java.util.HashSet;
 
 /**
- * Runs a headless game for AIs to compete!
- * Created by kyle on 2/27/15.
+ * Contract for a GameRunner which automates game play
+ * Created by kyle on 2/28/15.
  */
-public class GameRunner {
+public interface GameRunner {
     /**
-     * Main
-     *
-     * @param args int Boardsize (>1), String[] Player Types
+     * Get the results of the Games
+     * @return a set of Runner Players
      */
-    public static void main(String[] args) {
-        if (args.length < 2) {
-            throw new IllegalArgumentException("Requires at Least 2 arguments");
-        }
-        int boardSize;
-        try {
-            boardSize = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("First Argument must be an Integer for boardSize");
-        }
-        if (boardSize < 2){
-            throw new IllegalArgumentException("BoardSize must be at least 2");
-        }
+    public HashSet<RunnerPlayer> getPlayerResults();
 
-        ArrayList<String> availablePlayerTypes = new ArrayList<>();
-        for (PlayerOption playerOption : PlayerOption.values()) {
-            if (!playerOption.equals(PlayerOption.HUMAN)) {
-                availablePlayerTypes.add(playerOption.toString());
-            }
-        }
-        ArrayList<String> players = new ArrayList<>();
-        players.addAll(Arrays.asList(args).subList(1, args.length));
-        if(!players.stream().allMatch(availablePlayerTypes::contains)){
-            throw new IllegalArgumentException("All Player Types not available");
-        }
-    }
+    /**
+     * Games can draw too!
+     * @return number of draws
+     */
+    public int getDraws();
+
+    /**
+     * Check whether all the games have finished
+     * @return true if all the games are finished
+     */
+    public boolean areGamesFinished();
+
+    /**
+     * Run all the games
+     */
+    public void run();
 }

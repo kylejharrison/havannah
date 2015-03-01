@@ -27,6 +27,7 @@ public class Game {
     private List<Player> allPlayers = new ArrayList<>();
     private GameState gameState = GameState.STILLTOPLAYFOR;
     private Player currentPlayer;
+    private Player winner = null;
 
     public Game(int boardSize, Player player1, Player player2) {
         this.boardSize = boardSize;
@@ -116,6 +117,14 @@ public class Game {
         return gameState;
     }
 
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
     private class GameLoop implements Runnable {
 
         @Override
@@ -132,7 +141,7 @@ public class Game {
             }
             LOG.info("Game Over");
             if(gameState == GameState.WINNER){
-                Player winner = getPreviousPlayer();
+                setWinner(getPreviousPlayer());
                 LOG.info(String.format("Player %s won!", winner.getPlayerHexValue()));
             }
         }
