@@ -5,8 +5,10 @@ package game.ui; /**
 
 import game.Game;
 import game.elements.HexValue;
+import game.player.HumanPlayer;
 import game.player.Player;
 import game.player.PlayerType;
+import game.player.ai.WeightedMovesAiPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -180,7 +182,11 @@ public class MainMenu extends JPanel{
         newGame.addActionListener(actionEvent -> {
             ArrayList<Player> allPlayers = generateAllPlayersFromOptionPlayers(mainMenu.optionPlayers);
             //Hands off the running of the game to the game.controls.GameRunner
-            Game game = new Game(mainMenu.boardSize, allPlayers);
+            ArrayList<Player> myPlayers = new ArrayList<Player>();
+            myPlayers.add(new WeightedMovesAiPlayer(HexValue.BLACK));
+            myPlayers.add(new WeightedMovesAiPlayer(HexValue.BLUE));
+            myPlayers.add(new HumanPlayer(HexValue.RED));
+            Game game = new Game(8, allPlayers);
             game.launchGameWindow();
             try {
                 game.startGameLoop();

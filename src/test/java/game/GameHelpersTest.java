@@ -5,9 +5,7 @@ import game.elements.HexImpl;
 import game.elements.HexValue;
 import org.testng.annotations.Test;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static game.GameHelpers.*;
 import static junit.framework.Assert.*;
@@ -122,12 +120,174 @@ public class GameHelpersTest {
         HexImpl testHexTo = new HexImpl(0,-1);
         testHexTo.setHexValue(HexValue.BLUE);
         Set<Hex> currentState = new HashSet<>();
+        currentState.add(testHexFrom);
+        currentState.add(testHexTo);
         addHexToSet(currentState, 0, 1, HexValue.BLUE);
         addHexToSet(currentState,-1,1,HexValue.BLUE);
         addHexToSet(currentState,-1,0,HexValue.RED);
         addHexToSet(currentState,0,0,HexValue.RED);
         addHexToSet(currentState, 1, -1, HexValue.EMPTY);
         assertFalse(hasPathTo(currentState, testHexFrom, testHexTo));
+    }
+
+    @Test
+    public void testShortestPathReturnsShortestPathWithTwoOptions() throws Exception{
+        HexImpl testHexFrom = new HexImpl(0,0);
+        testHexFrom.setHexValue(HexValue.BLUE);
+        HexImpl testHexTo = new HexImpl(0,-2);
+        testHexTo.setHexValue(HexValue.BLUE);
+        HexImpl onPath = new HexImpl(0,-1);
+        onPath.setHexValue(HexValue.EMPTY);
+        Set<Hex> currentState = new HashSet<>();
+        currentState.add(testHexFrom);
+        currentState.add(testHexTo);
+        currentState.add(onPath);
+        addHexToSet(currentState,1,-1,HexValue.EMPTY);
+        addHexToSet(currentState,1,-2,HexValue.EMPTY);
+        addHexToSet(currentState,1,0,HexValue.BLACK);
+        ArrayList<Hex> shortestPath = new ArrayList<>();
+        shortestPath.add(testHexFrom);
+        shortestPath.add(onPath);
+        shortestPath.add(testHexTo);
+        assertEquals(shortestPath, findShortestPath(currentState, testHexFrom, testHexTo, HexValue.BLUE).get());
+    }
+
+    @Test
+    public void testShortestPathReturnsShortestPathWhenPathOfSameValueExists() throws Exception{
+        HexImpl testHexFrom = new HexImpl(0,0);
+        testHexFrom.setHexValue(HexValue.BLUE);
+        HexImpl testHexTo = new HexImpl(0,-3);
+        testHexTo.setHexValue(HexValue.BLUE);
+        HexImpl onPath = new HexImpl(1,-1);
+        onPath.setHexValue(HexValue.EMPTY);
+        HexImpl onPath2 = new HexImpl(2,-2);
+        onPath2.setHexValue(HexValue.BLUE);
+        HexImpl onPath3 = new HexImpl(2,-3);
+        onPath3.setHexValue(HexValue.BLUE);
+        HexImpl onPath4 = new HexImpl(1,-3);
+        onPath4.setHexValue(HexValue.BLUE);
+        Set<Hex> currentState = new HashSet<>();
+        currentState.add(testHexFrom);
+        currentState.add(testHexTo);
+        currentState.add(onPath);
+        currentState.add(onPath2);
+        currentState.add(onPath3);
+        currentState.add(onPath4);
+        addHexToSet(currentState,0,-1,HexValue.EMPTY);
+        addHexToSet(currentState,0,-2,HexValue.EMPTY);
+        addHexToSet(currentState,1,-2,HexValue.EMPTY);
+        ArrayList<Hex> shortestPath = new ArrayList<>();
+        shortestPath.add(testHexFrom);
+        shortestPath.add(onPath);
+        shortestPath.add(onPath2);
+        shortestPath.add(onPath3);
+        shortestPath.add(onPath4);
+        shortestPath.add(testHexTo);
+        assertEquals(shortestPath, findShortestPath(currentState, testHexFrom, testHexTo, HexValue.BLUE).get());
+    }
+
+    @Test
+    public void testShortestPathReturnsShortestPathWhenPathIsBehindStarting() throws Exception{
+        HexImpl testHexFrom = new HexImpl(0,0);
+        testHexFrom.setHexValue(HexValue.BLUE);
+        HexImpl testHexTo = new HexImpl(0,-3);
+        testHexTo.setHexValue(HexValue.BLUE);
+        HexImpl onPath = new HexImpl(0,1);
+        onPath.setHexValue(HexValue.EMPTY);
+        HexImpl onPath2 = new HexImpl(0,2);
+        onPath2.setHexValue(HexValue.BLUE);
+        HexImpl onPath3 = new HexImpl(1,2);
+        onPath3.setHexValue(HexValue.BLUE);
+        HexImpl onPath4 = new HexImpl(2,1);
+        onPath4.setHexValue(HexValue.BLUE);
+        HexImpl onPath5 = new HexImpl(3,0);
+        onPath5.setHexValue(HexValue.BLUE);
+        HexImpl onPath6 = new HexImpl(3,-1);
+        onPath6.setHexValue(HexValue.BLUE);
+        HexImpl onPath7 = new HexImpl(3,-2);
+        onPath7.setHexValue(HexValue.BLUE);
+        HexImpl onPath8 = new HexImpl(3,-3);
+        onPath8.setHexValue(HexValue.BLUE);
+        HexImpl onPath9 = new HexImpl(2,-3);
+        onPath9.setHexValue(HexValue.BLUE);
+        HexImpl onPath10 = new HexImpl(1,-3);
+        onPath10.setHexValue(HexValue.BLUE);
+        Set<Hex> currentState = new HashSet<>();
+        currentState.add(testHexFrom);
+        currentState.add(testHexTo);
+        currentState.add(onPath);
+        currentState.add(onPath2);
+        currentState.add(onPath3);
+        currentState.add(onPath4);
+        currentState.add(onPath5);
+        currentState.add(onPath6);
+        currentState.add(onPath7);
+        currentState.add(onPath8);
+        currentState.add(onPath9);
+        currentState.add(onPath10);
+        addHexToSet(currentState, 0, -1, HexValue.EMPTY);
+        addHexToSet(currentState,0,-2,HexValue.EMPTY);
+        addHexToSet(currentState,1,1,HexValue.EMPTY);
+        addHexToSet(currentState,1,0,HexValue.EMPTY);
+        addHexToSet(currentState,1,-1,HexValue.EMPTY);
+        addHexToSet(currentState,1,-2,HexValue.EMPTY);
+        addHexToSet(currentState,2,0,HexValue.EMPTY);
+        addHexToSet(currentState,2,-1,HexValue.EMPTY);
+        addHexToSet(currentState,2,-2,HexValue.EMPTY);
+        ArrayList<Hex> shortestPath = new ArrayList<>();
+        shortestPath.add(testHexFrom);
+        shortestPath.add(onPath);
+        shortestPath.add(onPath2);
+        shortestPath.add(onPath3);
+        shortestPath.add(onPath4);
+        shortestPath.add(onPath5);
+        shortestPath.add(onPath6);
+        shortestPath.add(onPath7);
+        shortestPath.add(onPath8);
+        shortestPath.add(onPath9);
+        shortestPath.add(onPath10);
+        shortestPath.add(testHexTo);
+        assertEquals(shortestPath, findShortestPath(currentState, testHexFrom, testHexTo, HexValue.BLUE).get());
+    }
+
+    @Test
+    public void testHexDistanceReturnsGreaterValueForHexesFurtherApart() throws Exception{
+        Hex testFrom = new HexImpl(0,0);
+        Hex farApart = new HexImpl(0,4);
+        Hex closer = new HexImpl(0,-2);
+        Hex closeDiagonal = new HexImpl(3,0);
+        Hex furtherDiagonal = new HexImpl(-5,0);
+        ArrayList<Hex> orderByDistanceDescending = new ArrayList<>();
+        orderByDistanceDescending.add(furtherDiagonal);
+        orderByDistanceDescending.add(farApart);
+        orderByDistanceDescending.add(closeDiagonal);
+        orderByDistanceDescending.add(closer);
+        TreeMap<Double, Hex> distances = new TreeMap<>();
+        distances.put(hexDistance(testFrom,farApart),farApart);
+        distances.put(hexDistance(testFrom,closer), closer);
+        distances.put(hexDistance(testFrom,closeDiagonal), closeDiagonal);
+        distances.put(hexDistance(testFrom,furtherDiagonal), furtherDiagonal);
+        ArrayList<Hex> calculatedOrderByDistance = new ArrayList<>();
+        while (!distances.isEmpty()){
+            calculatedOrderByDistance.add(distances.lastEntry().getValue());
+            distances.remove(distances.lastKey());
+        }
+        assertEquals(orderByDistanceDescending,calculatedOrderByDistance);
+    }
+    @Test
+    public void testShortestPathReturnsNothingWhenNoPath() throws Exception{
+        HexImpl testHexFrom = new HexImpl(1,0);
+        testHexFrom.setHexValue(HexValue.BLUE);
+        HexImpl testHexTo = new HexImpl(0,-1);
+        testHexTo.setHexValue(HexValue.BLUE);
+        Set<Hex> currentState = new HashSet<>();
+        currentState.add(testHexFrom);
+        currentState.add(testHexTo);
+        addHexToSet(currentState, 0, 1, HexValue.RED);
+        addHexToSet(currentState,1,1,HexValue.RED);
+        addHexToSet(currentState,-1,0,HexValue.RED);
+        addHexToSet(currentState,0,0,HexValue.RED);
+        assertFalse(findShortestPath(currentState, testHexFrom, testHexTo, HexValue.BLUE ).isPresent());
     }
 
     @Test

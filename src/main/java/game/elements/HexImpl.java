@@ -27,6 +27,13 @@ public class HexImpl implements Hex {
         this.yAxis = yAxis;
         this.edge = edge;
         this.corner = corner;
+        validateEdgeAndCorner();
+    }
+
+    private void validateEdgeAndCorner() {
+        if (edge.isAnEdge() && corner.isACorner()){
+            throw new RuntimeException("Hex cannot be both an edge and a Corner.");
+        }
     }
 
 

@@ -1,8 +1,6 @@
 package game;
 
-import game.elements.Hex;
-import game.elements.HexImpl;
-import game.elements.HexValue;
+import game.elements.*;
 import junit.framework.Assert;
 import org.testng.annotations.Test;
 
@@ -14,26 +12,21 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class CheckGameStateImplTest {
 
-    //TODO: fix tests for draws using real board (as otherwise are detected as loops)
-    @Test(enabled = false)
+    @Test
     public void testGetGameStateReturnsDrawWhenMoveIsLastEmptyHex() throws Exception {
-        Set<HexImpl> gameBoard = new HexGenerator(8).generateHexes();
         Set<Hex> currentState = new HashSet<>();
         Hex drawingMove = new HexImpl(0,0);
-        for (HexImpl hex: gameBoard){
-            if(!hex.equals(drawingMove)){
-                hex.setHexValue(HexValue.BLUE);
-            }
-            currentState.add(hex);
-        }
+        currentState.add(drawingMove);
         assertEquals(GameState.DRAW, new CheckGameStateImpl().getGameState(currentState, drawingMove, HexValue.BLUE));
     }
-    @Test(enabled = false)
+    @Test
     public void testGetGameStateReturnsStillToPlayForWhenEmptyHexesRemain() throws Exception{
-        Set<Hex> testState = TestHelpers.getHexCollection(9,9,1);
+        Set<Hex> currentState = new HashSet<>();
         Hex move = new HexImpl(-1, -1);
-        testState.add(move);
-        assertEquals(GameState.STILLTOPLAYFOR, new CheckGameStateImpl().getGameState(testState, move, HexValue.BLUE));
+        Hex empty = new HexImpl(0,0, Edge.NOTANEDGE, Corner.BOTTOM);
+        currentState.add(move);
+        currentState.add(empty);
+        assertEquals(GameState.STILLTOPLAYFOR, new CheckGameStateImpl().getGameState(currentState, move, HexValue.BLUE));
     }
     @Test
     public void testCanDetectACornerWinWhenMoveIsACorner() throws Exception{

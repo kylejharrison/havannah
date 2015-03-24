@@ -27,7 +27,7 @@ public interface Hex {
     int getYAxis();
 
     /**
-     * HexValue is the value (team it belongs to) of the Hex
+     * HexValue is the value (ThePlayer it belongs to) of the Hex
      * @return hexValue of the hex
      */
     HexValue getHexValue();
